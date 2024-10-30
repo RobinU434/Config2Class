@@ -1,4 +1,4 @@
-**ig2Code: A Tool to Generate Python Dataclasses from Configuration Files**
+**Config2Code: A Tool to Generate Python Dataclasses from Configuration Files**
 
 **Introduction**
 
