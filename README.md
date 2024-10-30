@@ -1,5 +1,8 @@
 # Config2Code: A Tool to Generate Python Dataclasses from Configuration Files
 
+![PyPI - Version](https://img.shields.io/pypi/v/config2class) ![PyPI - License](https://img.shields.io/pypi/l/config2class) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/config2class)
+
+
 ## Introduction
 
 Config2Code is a Python tool designed to streamline the process of converting configuration files (YAML or JSON or TOML) into Python dataclasses. By automating the generation of dataclasses, you can improve code readability, maintainability, and type safety.
