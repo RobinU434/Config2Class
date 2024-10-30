@@ -1,10 +1,10 @@
-**Config2Code: A Tool to Generate Python Dataclasses from Configuration Files**
+# Config2Code: A Tool to Generate Python Dataclasses from Configuration Files
 
-**Introduction**
+## Introduction
 
 Config2Code is a Python tool designed to streamline the process of converting configuration files (YAML or JSON or TOML) into Python dataclasses. By automating the generation of dataclasses, you can improve code readability, maintainability, and type safety.
 
-**Installation**
+## Installation
 
 You can install Config2Code using pip:
 
@@ -12,7 +12,7 @@ You can install Config2Code using pip:
 pip install config2code
 ```
 
-**Usage**
+## Usage
 
 1. **Prepare your configuration file:**
    Create a YAML or JSON file containing your configuration data. Here's an example YAML file:
@@ -44,7 +44,7 @@ pip install config2code
        password: str
    ```
 
-**Key Features**
+## Key Features
 
 * **Supports YAML, JSON and TOML:** Easily convert both formats.
 * **Automatic dataclass generation:** Generates well-structured dataclasses.
@@ -52,13 +52,13 @@ pip install config2code
 * **Type inference:** Infers types for fields based on their values.
 * **Customizable output:** Control the output file name and code formatting.
 
-**Additional Considerations**
+## Additional Considerations
 
 * **Complex data structures:** For more complex data structures, consider using custom type hints or additional configuration options.
 * **Error handling:** The tool includes basic error handling for file loading and parsing.
 * **Future enhancements:** We plan to add support for additional file formats, advanced type inference, and more customization options.
 
-**Contributing**
+## Contributing
 
 We welcome contributions to improve Config2Code. Feel free to fork the repository, make changes, and submit a pull request.
 
