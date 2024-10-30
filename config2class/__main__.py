@@ -7,7 +7,7 @@ def execute(args: dict) -> bool:
     module = Config2Code()
     match args["command"]:
         case "to-code":
-            module.to_code(input_file=args["input_file"], out_file=args["out_file"])
+            module.to_code(input=args["input"], output=args["output"])
 
         case _:
             return False
@@ -16,7 +16,9 @@ def execute(args: dict) -> bool:
 
 
 def create_parser() -> ArgumentParser:
-    parser = ArgumentParser(description="Config to Code")
+    parser = ArgumentParser(
+        description="Converts configuration data from a YAML or JSON file into a Python dataclass."
+    )
 
     parser = setup_parser(parser)
 
