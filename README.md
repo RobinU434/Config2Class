@@ -28,7 +28,7 @@ pip install config2code
    Use the `config2code` command-line interface to convert the configuration file:
 
    ```bash
-   config2code input.yaml output.py
+   config2code to-code --input input.yaml --output output.py
    ```
 
    This will generate a Python file `output.py` containing a dataclass representing the configuration:
