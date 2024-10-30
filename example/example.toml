@@ -1,0 +1,18 @@
+[app_config]
+name = "MyApp"
+version = "1.0.0"
+
+[app_config.database]
+host = "localhost"
+port = 5432
+
+[app_config.features]
+authentication = true
+
+[app_config.database.credentials]
+username = "admin"
+password = "secret"
+
+[app_config.features.caching]
+enabled = true
+cache_size = 256
