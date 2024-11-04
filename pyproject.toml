@@ -17,6 +17,7 @@ toml = "^0.10.2"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^8.3.3"
+python-coveralls = "^2.9.3"
 
 [build-system]
 requires = ["poetry-core"]
