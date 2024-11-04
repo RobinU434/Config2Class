@@ -1,7 +1,6 @@
 # Config2Code: A Tool to Generate Python Dataclasses from Configuration Files
 
-![PyPI - Version](https://img.shields.io/pypi/v/config2class) ![PyPI - License](https://img.shields.io/pypi/l/config2class) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/config2class)
-
+![PyPI - Version](https://img.shields.io/pypi/v/config2class) ![PyPI - License](https://img.shields.io/pypi/l/config2class) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/config2class) [![Coverage Status](https://coveralls.io/repos/github/RobinU434/Config2Class/badge.svg)](https://coveralls.io/github/RobinU434/Config2Class)
 
 ## Introduction
 
@@ -60,6 +59,12 @@ pip install config2code
 * **Complex data structures:** For more complex data structures, consider using custom type hints or additional configuration options.
 * **Error handling:** The tool includes basic error handling for file loading and parsing.
 * **Future enhancements:** We plan to add support for additional file formats, advanced type inference, and more customization options.
+
+## Features to expand
+
+* [ ] add VS Code extension (create new file on config file save)
+* [ ] add renaming feature from config to code (renaming a field in the config file should resolve in renaming a field in the code
+* [ ] add token in config yaml to overwrite field automatically with a dependency on another field (something like `<c2c/2*:dep.config.a/c2c>`) or costum functions `<c2c/module.submodule:func(some_value)/c2c>`
 
 ## Contributing
 
