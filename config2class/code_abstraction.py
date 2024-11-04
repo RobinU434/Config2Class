@@ -70,9 +70,7 @@ class ConfigAbstraction:
         code.append("\n        ending = file.split('.')[-1]")
         code.append("\n        content = globals()[f'_load_{ending}'](file)")
         code.append("\n        first_key, first_value = content.popitem()")
-        code.append("\n        print(first_key)")
         code.append("\n        if len(content) == 0 and isinstance(first_value, dict):")
-        code.append("\n            print('inited nested')")
         code.append("\n            return cls(**first_value)")
         code.append("\n        return cls(**content)\n")
 
