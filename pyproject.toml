@@ -11,7 +11,7 @@ config2class = "config2class.__main__:main"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-pyaml = "^24.0.0"
+pyaml = "^23.0.0"
 toml = "^0.10.2"
 
 

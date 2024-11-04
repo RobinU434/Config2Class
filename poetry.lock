@@ -2,13 +2,13 @@
 
 [[package]]
 name = "pyaml"
-version = "24.9.0"
+version = "23.12.0"
 description = "PyYAML-based module to produce a bit more pretty and readable YAML-serialized data"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pyaml-24.9.0-py3-none-any.whl", hash = "sha256:31080551502f1014852b3c966a96c796adc79b4cf86e165f28ed83455bf19c62"},
-    {file = "pyaml-24.9.0.tar.gz", hash = "sha256:e78dee8b0d4fed56bb9fa11a8a7858e6fade1ec70a9a122cee6736efac3e69b5"},
+    {file = "pyaml-23.12.0-py3-none-any.whl", hash = "sha256:90407d74c95a55d9b41d3860fcc1759640444d2795df748a328d077bc4f58393"},
+    {file = "pyaml-23.12.0.tar.gz", hash = "sha256:ce6f648efdfb1b3a5579f8cedb04facf0fa1e8f64846b639309b585bb322b4e5"},
 ]
 
 [package.dependencies]
@@ -93,4 +93,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "863b7347d140048f66ab3b459262e272992cfcfcb5b44adfa4b20ba12687ac19"
+content-hash = "7c18482c4ec0ef77c647068c2dafef5b28e9541011fd440b089b5eab98607964"
