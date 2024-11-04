@@ -65,11 +65,6 @@ class ConfigAbstraction:
             code.append(f"    {key}: {typ}\n")
 
         # add class method
-        
-        code.append("\n    @classmethod")
-        code.append(f'\n    def from_dict(cls, d: dict) -> "{self.name}":')
-        code.append("\n        return cls(**dict)\n")
-
         code.append("\n    @classmethod")
         code.append(f'\n    def from_file(cls, file: str) -> "{self.name}":')
         code.append("\n        ending = file.split('.')[-1]")
