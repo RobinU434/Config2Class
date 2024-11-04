@@ -64,6 +64,23 @@ class ConfigAbstraction:
                 typ = type(item).__name__
             code.append(f"    {key}: {typ}\n")
 
+        # add class method
+        
+        code.append("\n    @classmethod")
+        code.append(f'\n    def from_dict(cls, d: dict) -> "{self.name}":')
+        code.append("\n        return cls(**dict)\n")
+
+        code.append("\n    @classmethod")
+        code.append(f'\n    def from_file(cls, file: str) -> "{self.name}":')
+        code.append("\n        ending = file.split('.')[-1]")
+        code.append("\n        content = globals()[f'_load_{ending}'](file)")
+        code.append("\n        first_key, first_value = content.popitem()")
+        code.append("\n        print(first_key)")
+        code.append("\n        if len(content) == 0 and isinstance(first_value, dict):")
+        code.append("\n            print('inited nested')")
+        code.append("\n            return cls(**first_value)")
+        code.append("\n        return cls(**content)\n")
+
         # add post init func
         if len(post_init) == 0:
             return code
