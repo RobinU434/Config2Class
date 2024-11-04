@@ -72,6 +72,8 @@ class ConfigAbstraction:
         code.append("\n        first_key, first_value = content.popitem()")
         code.append("\n        if len(content) == 0 and isinstance(first_value, dict):")
         code.append("\n            return cls(**first_value)")
+        code.append("\n        else:")
+        code.append("\n            content[first_key] = first_value")
         code.append("\n        return cls(**content)\n")
 
         # add post init func

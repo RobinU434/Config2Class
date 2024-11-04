@@ -1,0 +1,19 @@
+{
+  "name": "MyApp",
+  "version": "1.0.0",
+  "database": {
+    "host": "localhost",
+    "port": 5432,
+    "credentials": {
+      "username": "admin",
+      "password": "secret"
+    }
+  },
+  "features": {
+    "authentication": true,
+    "caching": {
+      "enabled": true,
+      "cache_size": 256
+    }
+  }
+}
