@@ -1,0 +1,2 @@
+from config2class.deconstruction import deconstruct_config
+from config2class.constructor import ConfigConstructor
