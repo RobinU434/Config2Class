@@ -1,5 +1,5 @@
 from argparse import ArgumentParser
-from config2class.main import Config2Code
+from config2class.process import Config2Code
 from config2class.utils.parser import setup_parser
 
 
@@ -10,7 +10,9 @@ def execute(args: dict) -> bool:
             module.to_code(input=args["input"], output=args["output"])
 
         case "start-service":
-            module.start_service(input=args["input"], output=args["output"])
+            module.start_service(
+                input=args["input"], output=args["output"], freq=args["freq"]
+            )
 
         case "stop-service":
             module.stop_service(pid=args["pid"])
@@ -20,6 +22,9 @@ def execute(args: dict) -> bool:
 
         case "list-services":
             module.list_services()
+
+        case "clear-logs":
+            module.clear_logs()
 
         case _:
             return False

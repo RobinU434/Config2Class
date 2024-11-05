@@ -1,5 +1,5 @@
 import pytest
-from config2class.main import Config2Code
+from config2class.process import Config2Code
 import os
 from test import OUT_PATH
 from test.fixture import cleanup

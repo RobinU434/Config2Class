@@ -1,6 +1,10 @@
 from argparse import ArgumentParser
 
 
+def add_clear_logs_args(parser: ArgumentParser) -> ArgumentParser:
+    return parser
+
+
 def add_list_services_args(parser: ArgumentParser) -> ArgumentParser:
     return parser
 
@@ -36,6 +40,14 @@ def add_start_service_args(parser: ArgumentParser) -> ArgumentParser:
         default="config.py",
         required=False,
     )
+    parser.add_argument(
+        "--freq",
+        help="frequency to check for events. Defaults to 5.",
+        dest="freq",
+        type=float,
+        default=5,
+        required=False,
+    )
     return parser
 
 
@@ -65,7 +77,9 @@ def setup_config2code_parser(parser: ArgumentParser) -> ArgumentParser:
         help="Converts a configuration file to a Python dataclass and writes the code to a file.",
     )
     to_code = add_to_code_args(to_code)
-    start_service = command_subparser.add_parser("start-service", help="_summary_")
+    start_service = command_subparser.add_parser(
+        "start-service", help="start an observer to create the config automatically. "
+    )
     start_service = add_start_service_args(start_service)
     stop_service = command_subparser.add_parser(
         "stop-service", help="stop a particular service"
@@ -77,6 +91,8 @@ def setup_config2code_parser(parser: ArgumentParser) -> ArgumentParser:
         "list-services", help="print currently running processes"
     )
     list_services = add_list_services_args(list_services)
+    clear_logs = command_subparser.add_parser("clear-logs", help="delete all log files")
+    clear_logs = add_clear_logs_args(clear_logs)
     return parser
 
 

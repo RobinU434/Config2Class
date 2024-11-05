@@ -1,6 +1,8 @@
 from config2class.service.api_funcs import read_pid_file, start_observer, stop_process
 import config2class.utils.filesystem as fs_utils
 from config2class.constructor import ConfigConstructor
+from glob import glob
+import os
 
 
 class Config2Code:
@@ -42,14 +44,18 @@ class Config2Code:
         constructor.construct(content)
         constructor.write(output)
 
-    def start_service(self, input: str, output: str = "config.py"):
-        """_summary_
+    def start_service(self, input: str, output: str = "config.py", freq: float = 5):
+        """start an observer to create the config automatically.
 
         Args:
             input (str): _description_
             output (str, optional): _description_. Defaults to "config.py".
+            freq (float, optional): frequency to check for events. Defaults to 5.
         """
-        start_observer(input)
+        start_observer(
+            input,
+            output,
+        )
 
     def stop_service(self, pid: int):
         """stop a particular service
@@ -66,4 +72,10 @@ class Config2Code:
 
     def list_services(self):
         """print currently running processes"""
-        print(read_pid_file())
+        for pid in read_pid_file():
+            print(pid)
+
+    def clear_logs(self):
+        """delete all log files"""
+        for file_name in glob("data/*.logs"):
+            os.remove(file_name)
