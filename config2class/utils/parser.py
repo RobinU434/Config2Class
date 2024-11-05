@@ -27,14 +27,14 @@ def add_stop_service_args(parser: ArgumentParser) -> ArgumentParser:
 def add_start_service_args(parser: ArgumentParser) -> ArgumentParser:
     parser.add_argument(
         "--input",
-        help="_description_",
+        help="input file you want to have observed",
         dest="input",
         type=str,
         required=True,
     )
     parser.add_argument(
         "--output",
-        help='_description_. Defaults to "config.py".',
+        help='python file to write the dataclasses in. Defaults to "config.py".',
         dest="output",
         type=str,
         default="config.py",
@@ -78,7 +78,7 @@ def setup_config2code_parser(parser: ArgumentParser) -> ArgumentParser:
     )
     to_code = add_to_code_args(to_code)
     start_service = command_subparser.add_parser(
-        "start-service", help="start an observer to create the config automatically. "
+        "start-service", help="start an observer to create the config automatically."
     )
     start_service = add_start_service_args(start_service)
     stop_service = command_subparser.add_parser(

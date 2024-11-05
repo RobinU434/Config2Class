@@ -48,8 +48,8 @@ class Config2Code:
         """start an observer to create the config automatically.
 
         Args:
-            input (str): _description_
-            output (str, optional): _description_. Defaults to "config.py".
+            input (str): input file you want to have observed
+            output (str, optional): python file to write the dataclasses in. Defaults to "config.py".
             freq (float, optional): frequency to check for events. Defaults to 5.
         """
         start_observer(
