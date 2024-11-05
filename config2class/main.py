@@ -1,3 +1,4 @@
+from config2class.service.api_funcs import read_pid_file, start_observer, stop_process
 import config2class.utils.filesystem as fs_utils
 from config2class.constructor import ConfigConstructor
 
@@ -40,3 +41,29 @@ class Config2Code:
         constructor = ConfigConstructor()
         constructor.construct(content)
         constructor.write(output)
+
+    def start_service(self, input: str, output: str = "config.py"):
+        """_summary_
+
+        Args:
+            input (str): _description_
+            output (str, optional): _description_. Defaults to "config.py".
+        """
+        start_observer(input)
+
+    def stop_service(self, pid: int):
+        """stop a particular service
+
+        Args:
+            pid (int): process id
+        """
+        stop_process(pid)
+
+    def stop_all(self):
+        """stop all services"""
+        for pid in read_pid_file():
+            self.stop_service(pid)
+
+    def list_services(self):
+        """print currently running processes"""
+        print(read_pid_file())

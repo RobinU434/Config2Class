@@ -13,11 +13,16 @@ config2class = "config2class.__main__:main"
 python = "^3.10"
 pyaml = "^23.0.0"
 toml = "^0.10.2"
+watchdog = "^6.0.0"
 
 
 [tool.poetry.group.test.dependencies]
 pytest = "^8.3.3"
 python-coveralls = "^2.9.3"
+
+
+[tool.poetry.group.dev.dependencies]
+pyargwriter = {git = "git@github.com:RobinU434/PyArgWriter.git"}
 
 [build-system]
 requires = ["poetry-core"]

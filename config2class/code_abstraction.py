@@ -82,5 +82,7 @@ class ConfigAbstraction:
 
         code.append("\n    def __post_init__(self):\n")
         for key, value in post_init.items():
-            code.append(f"        self.{key} = {value.name}(**self.{key})\n")
+            code.append(
+                f"        self.{key} = {value.name}(**self.{key})  #pylint: disable=E1134\n"
+            )
         return code

@@ -9,7 +9,7 @@ class ConfigConstructor:
     Attributes:
         configs (List[ConfigAbstraction]): A list of `ConfigAbstraction` instances,
             each representing a part of the configuration structure.
-    """ 
+    """
 
     def __init__(self):
         """
@@ -41,25 +41,30 @@ class ConfigConstructor:
             out_path (str): The path to the output file.
         """
         code = ["from dataclasses import dataclass\n"]
-        
+
         # add load functions
         code.append("\nfrom typing import Dict, Any")
         code.append("\nimport yaml")
         code.append("\nimport json")
         code.append("\nimport toml\n \n")
-        code.append("\ndef _load_yaml(path: str, encoding: str = 'utf-8') -> Dict[Any, Any]:")
+        code.append(
+            "\ndef _load_yaml(path: str, encoding: str = 'utf-8') -> Dict[Any, Any]:"
+        )
         code.append("\n    with open(path, encoding=encoding) as file:")
         code.append("\n        content = yaml.safe_load(file)")
         code.append("\n    return content\n\n")
-        code.append("\ndef _load_json(path: str, encoding: str = 'utf-8') -> Dict[Any, Any]:")
+        code.append(
+            "\ndef _load_json(path: str, encoding: str = 'utf-8') -> Dict[Any, Any]:"
+        )
         code.append("\n    with open(path, encoding=encoding) as file:")
         code.append("\n        content = json.load(file)")
         code.append("\n    return content\n\n")
-        code.append("\ndef _load_toml(path: str, encoding: str = 'utf-8') -> Dict[Any, Any]:")
+        code.append(
+            "\ndef _load_toml(path: str, encoding: str = 'utf-8') -> Dict[Any, Any]:"
+        )
         code.append("\n    with open(path, encoding=encoding) as file:")
         code.append("\n        content = toml.load(file)")
         code.append("\n    return content\n\n\n")
-
 
         for abstraction in self.configs:
             code.extend(abstraction.write_code())

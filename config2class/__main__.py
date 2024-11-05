@@ -9,6 +9,18 @@ def execute(args: dict) -> bool:
         case "to-code":
             module.to_code(input=args["input"], output=args["output"])
 
+        case "start-service":
+            module.start_service(input=args["input"], output=args["output"])
+
+        case "stop-service":
+            module.stop_service(pid=args["pid"])
+
+        case "stop-all":
+            module.stop_all()
+
+        case "list-services":
+            module.list_services()
+
         case _:
             return False
 
