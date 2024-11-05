@@ -71,7 +71,7 @@ class ConfigConstructor:
             code.append("\n\n")
 
         code.pop(-1)
-        with open(out_path, "w") as file:
+        with open(out_path, "w", encoding="utf-8") as file:
             file.writelines(code)
 
     def _construct_config_class(self, name: str, content: Dict[str, Any]):
