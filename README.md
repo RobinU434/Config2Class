@@ -23,7 +23,7 @@ You can either use the tool as a one time call or you could start a service whic
    Create a YAML or JSON file containing your configuration data. Here's an example YAML file:
 
    ```yaml
-   database:
+   DatabaseConfig:
      host: localhost
      port: 5432
      user: myuser
@@ -61,6 +61,18 @@ To stop it you can stop all with
 
 ```bash
 config2code stop-all
+```
+
+### Use Config in Code
+
+After you created your python config you can easily use as follows:
+```python
+from output import DatabaseConfig
+
+config = DatabaseConfig.from_file("input.yaml")
+# access config field with dot operator
+config.host
+
 ```
 
 ## Key Features
