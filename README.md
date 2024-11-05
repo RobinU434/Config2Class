@@ -16,6 +16,9 @@ pip install config2code
 
 ## Usage
 
+You can either use the tool as a one time call or you could start a service which monitors your config file continuously.
+
+### One time Call
 1. **Prepare your configuration file:**
    Create a YAML or JSON file containing your configuration data. Here's an example YAML file:
 
@@ -45,6 +48,20 @@ pip install config2code
        user: str
        password: str
    ```
+
+### Service
+This service monitors the requested configuration file. If the services detects changes in the file it will automatically write those changes into the specified `output.py`.  
+You can start the service for example with: 
+
+```bash
+config2code service-start --input input.yaml --output output.py
+```
+
+To stop it you can stop all with 
+
+```bash
+config2code stop-all
+```
 
 ## Key Features
 
