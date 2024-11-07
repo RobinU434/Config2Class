@@ -8,14 +8,23 @@ from config2class.utils import deconstruct_config
 from config2class.utils import filesystem
 import importlib
 
+
 @pytest.mark.parametrize(
-    "file_name", ["example.json", "example.yaml", "example.toml", "example_flat.json", "example_flat.yaml", "example_flat.toml", "example_token.yaml"]
+    "file_name",
+    [
+        "example.json",
+        "example.yaml",
+        "example.toml",
+        "example_flat.json",
+        "example_flat.yaml",
+        "example_flat.toml",
+        "example_token.yaml",
+    ],
 )
 def test_class_construction(cleanup, file_name: str):
     process = Config2Code()
     input_file = "example/" + file_name
     process.to_code(input_file, OUT_PATH)
-    
 
     # test from file
     spec = importlib.util.spec_from_file_location("tmp", "test/tmp.py")
@@ -40,7 +49,7 @@ def test_class_construction(cleanup, file_name: str):
 def test_unknown_file(cleanup):
     try:
         process = Config2Code()
-        input_file = "example/example.pkl" 
+        input_file = "example/example.pkl"
         process.to_code(input_file, OUT_PATH)
         raise AssertionError("Expected to fail because of unknown file")
     except NotImplementedError:
