@@ -1,9 +1,8 @@
 import pytest
-from config2class.process import Config2Code
-import os
+from config2class.entrypoint import Config2Code
 from test import OUT_PATH
 from test.fixture import cleanup
-from config2class import deconstruct_config
+from config2class.utils import deconstruct_config
 from config2class.utils import filesystem
 
 @pytest.mark.parametrize(

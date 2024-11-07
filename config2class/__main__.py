@@ -1,5 +1,5 @@
 from argparse import ArgumentParser
-from config2class.process import Config2Code
+from config2class.entrypoint import Config2Code
 from config2class.utils.parser import setup_parser
 
 
