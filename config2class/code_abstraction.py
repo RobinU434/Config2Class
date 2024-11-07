@@ -1,6 +1,5 @@
 from typing import Any, Dict, List, Union
 
-
 class ConfigAbstraction:
     """
     This class provides an abstraction for defining configuration data structures. It
@@ -68,7 +67,8 @@ class ConfigAbstraction:
         code.append("\n    @classmethod")
         code.append(f'\n    def from_file(cls, file: str) -> "{self.name}":')
         code.append("\n        ending = file.split('.')[-1]")
-        code.append("\n        content = globals()[f'_load_{ending}'](file)")
+        code.append("\n        content = getattr(fs_utils, f'load_{ending}')(file)")
+        code.append("\n        content = replace_tokens(content)")
         code.append("\n        first_key, first_value = content.popitem()")
         code.append("\n        if len(content) == 0 and isinstance(first_value, dict):")
         code.append("\n            return cls(**first_value)")

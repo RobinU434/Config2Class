@@ -23,6 +23,7 @@ python-coveralls = "^2.9.3"
 
 [tool.poetry.group.dev.dependencies]
 pyargwriter = {git = "git@github.com:RobinU434/PyArgWriter.git"}
+jupyter = "^1.1.1"
 
 [build-system]
 requires = ["poetry-core"]
