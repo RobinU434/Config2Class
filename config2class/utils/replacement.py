@@ -16,7 +16,6 @@ def replace_tokens(d: Dict[str, Any]) -> Dict[str, Any]:
         return d
 
     nested = len(d) > 1
-    print(d)
     prefix = "__CONFIG__"
     if nested:
         d = {prefix: d}
@@ -53,8 +52,6 @@ def replace_tokens(d: Dict[str, Any]) -> Dict[str, Any]:
             if not is_token(value, pattern):
                 continue
             # strip from token
-            print(d_flatten)
-            print(key)
             try:
                 d_flatten[key] = d_flatten[value.strip("{}")]
             except KeyError as error:
