@@ -90,7 +90,7 @@ class ServiceCallback(FileSystemEventHandler):
         logging.info("Done")
 
 
-def start_observer(input: str, output: str = "config.py"):
+def start_observer(input: str, output: str = "config.py", verbose: bool = False):
     """
     Starts a new background thread to observe changes to the input file and update the output configuration file.
     Logs the start of the process, creates a PID record, and sets up logging.
@@ -98,13 +98,13 @@ def start_observer(input: str, output: str = "config.py"):
     Args:
         input (str): Path to the file to observe.
         output (str): Path to the configuration output file.
-
+        verbose (bool, optional): if you want to print logs to terminal
     Returns:
         threading.Thread: The started thread running the observer service.
     """
     target = ServiceCallback(input, output)
     # Start the background task as a separate process
-    thread = threading.Thread(target=target, daemon=True)
+    thread = threading.Thread(target=target, daemon=not verbose)
     thread.start()
     # to keep track of running processes
     add_pid(thread.ident)
