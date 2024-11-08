@@ -71,8 +71,8 @@ class Config2Code:
 
     def list_services(self):
         """print currently running processes"""
-        for pid in read_pid_file():
-            print(pid)
+        for pid, (input_file, output_file) in read_pid_file().items():
+            print(f"{pid}: {input_file} -> {output_file}")
 
     def clear_logs(self):
         """delete all log files"""
