@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "config2class"
-version = "0.2.0"
+version = "0.2.1"
 description = "Config2Code simplifies configuration management by automatically generating Python dataclasses from YAML or JSON files. This tool enhances code readability, maintainability, and type safety, saving you time and effort."
 authors = ["Robin Uhrich <robin.uhrich@gmail.com>"]
 license = "MIT"
