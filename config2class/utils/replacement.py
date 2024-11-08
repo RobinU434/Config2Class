@@ -35,7 +35,7 @@ def replace_tokens(d: Dict[str, Any]) -> Dict[str, Any]:
             split[0] = prefix
         if "" in split or [" "] == split:
             raise ValueError(f"token={value} is not valid")
-        
+
         value = "{{" + ".".join(split) + "}}"
         res[key] = value
     d_flatten = res

@@ -41,11 +41,10 @@ def add_start_service_args(parser: ArgumentParser) -> ArgumentParser:
         required=False,
     )
     parser.add_argument(
-        "--freq",
-        help="frequency to check for events. Defaults to 5.",
-        dest="freq",
-        type=float,
-        default=5,
+        "--verbose",
+        help="if you want to print logs to terminal",
+        dest="verbose",
+        type=int,
         required=False,
     )
     return parser

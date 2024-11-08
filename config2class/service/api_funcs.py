@@ -59,6 +59,7 @@ class ServiceCallback(FileSystemEventHandler):
         content = load_func(self.input)
         self.config_constructor.construct(content)
         self.config_constructor.write(self.output)
+        logging.info(f"New config written to {self.output}")
 
     def on_modified(self, event):
         """
@@ -109,13 +110,17 @@ def start_observer(input: str, output: str = "config.py", verbose: bool = False)
     # to keep track of running processes
     add_pid(thread.ident)
 
+    if verbose:
+        filename=None
+    else:
+        filename = f"data/service_{thread.ident}.log"
     # create a log file
     logging.basicConfig(
-        filename=f"data/service_{thread.ident}.log",
+        filename=filename,
         filemode="a",
         format="%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s",
         datefmt="%H:%M:%S",
-        level=logging.DEBUG,
+        level=logging.INFO,
     )
     msg = f"Process started with PID {thread.ident}"
     logging.info(msg)

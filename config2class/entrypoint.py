@@ -44,7 +44,9 @@ class Config2Code:
         constructor.construct(content)
         constructor.write(output)
 
-    def start_service(self, input: str, output: str = "config.py", verbose: int = False):
+    def start_service(
+        self, input: str, output: str = "config.py", verbose: int = False
+    ):
         """start an observer to create the config automatically.
 
         Args:
@@ -52,11 +54,7 @@ class Config2Code:
             output (str, optional): python file to write the dataclasses in. Defaults to "config.py".
             verbose (bool, optional): if you want to print logs to terminal
         """
-        start_observer(
-            input,
-            output,
-            verbose
-        )
+        start_observer(input, output, verbose)
 
     def stop_service(self, pid: int):
         """stop a particular service

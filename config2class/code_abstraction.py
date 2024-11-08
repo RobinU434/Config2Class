@@ -1,5 +1,6 @@
 from typing import Any, Dict, List, Union
 
+
 class ConfigAbstraction:
     """
     This class provides an abstraction for defining configuration data structures. It

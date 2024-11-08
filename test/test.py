@@ -7,6 +7,7 @@ from test.fixture import cleanup
 from config2class.utils import deconstruct_config
 from config2class.utils import filesystem
 import importlib
+import os
 
 
 @pytest.mark.parametrize(
@@ -55,3 +56,11 @@ def test_unknown_file(cleanup):
     except NotImplementedError:
         # test has passed
         assert True
+
+
+def test_service(cleanup, input_file):
+    # create file
+    with open(f"test/input_file", "w", encoding="utf-8") as file:
+        file.writelines([])
+
+    

@@ -1,2 +1,0 @@
-from config2class.constructor import ConfigConstructor
-from config2class.code_abstraction import ConfigAbstraction

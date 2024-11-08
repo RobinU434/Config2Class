@@ -11,7 +11,7 @@ def execute(args: dict) -> bool:
 
         case "start-service":
             module.start_service(
-                input=args["input"], output=args["output"], freq=args["freq"]
+                input=args["input"], output=args["output"], verbose=args["verbose"]
             )
 
         case "stop-service":
