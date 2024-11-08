@@ -11,6 +11,7 @@ from watchdog.events import FileSystemEventHandler, FileModifiedEvent
 from watchdog.observers import Observer
 
 from config2class.constructor import ConfigConstructor
+from config2class.service.config import PID_FILE
 from config2class.service.pid_coordination import add_pid, check_for_process, read_pid_file, remove_pid
 import config2class.utils.filesystem as fs_utils
 
@@ -28,6 +29,8 @@ def start_service(input_file: str, output_file: str = "config.py", verbose: bool
     Returns:
         threading.Thread: The started thread running the observer service.
     """
+    if not os.path.exists(PID_FILE):
+        Path(PID_FILE).touch()
     check_for_process(input_file, output_file)
     # Start a new Python process that runs this script with an internal flag for `background_task`
     process = subprocess.Popen(
