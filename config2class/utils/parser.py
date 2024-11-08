@@ -44,7 +44,7 @@ def add_start_service_args(parser: ArgumentParser) -> ArgumentParser:
         "--verbose",
         help="if you want to print logs to terminal",
         dest="verbose",
-        type=int,
+        action="store_true",
         required=False,
     )
     return parser

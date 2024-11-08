@@ -9,7 +9,10 @@ def _check_created_config(input_file: str):
     spec = importlib.util.spec_from_file_location("tmp", OUT_PATH)
     generated_module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(generated_module)
-    print(generated_module.__dict__)
+    
+    with open(OUT_PATH, "r", encoding="utf-8") as f:
+        content = f.readlines()
+    print(f"num lines in {OUT_PATH}: {len(content)}")
     try:
         config_cls = getattr(generated_module, "App_config")
         config = config_cls.from_file(input_file)

@@ -1,1 +1,1 @@
-PID_FILE = "data/services.pid"
+PID_FILE = "data/pid.yaml"

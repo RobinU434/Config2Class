@@ -1,43 +1,49 @@
-from typing import List, Literal
 
+import logging
+import sys
+from typing import Dict, Tuple
+from config2class.utils import filesystem
 from config2class.service.config import PID_FILE
 
 
-def read_pid_file() -> List[int]:
+def read_pid_file() -> Dict[int, Tuple[str, str]]:
     """
     Reads the PID file and returns a list of process IDs.
 
     Returns:
-        List[int]: A list of process IDs (integers) read from the PID file.
+        Dict[str, Any]: Mapping from PID to observed files
     """
-    with open(PID_FILE, "r", encoding="utf-8") as f:
-        all_pids = f.readlines()
-    # convert to ints
-    all_pids = list(map(lambda x: int(x.strip().rstrip("\n")), all_pids))
-    return all_pids
+    content = filesystem.get_load_func(PID_FILE)(PID_FILE)
+    return content
 
+def check_for_process(input_file: str, output_file: str):
+    content = read_pid_file()
+    if content is None:
+        return
+    value = [input_file, output_file]
+    if value in content.values():
+        content_rev = {tuple(v): k for k, v in content.items()}
+        msg = f"There is already a process (pid: {content_rev[tuple(value)]}) which maps from {input_file} to {output_file}"
+        logging.error(msg)
+        sys.exit()
+    
 
-def add_pid(pid: int):
+def add_pid(pid: int, input_file: str, output_file: str):
     """
     Appends a new process ID to the PID file.
 
     Args:
         pid (int): The process ID to be added.
+        input_file (str): input file of the process
+        output_file (str): ouput file of the process
     """
-    with open(PID_FILE, "a", encoding="utf-8") as f:
-        f.write(str(pid) + "\n")
-
-
-def overwrite_pid(pid: List[int]):
-    """
-    Overwrites the PID file with a new list of process IDs, replacing any existing content.
-
-    Args:
-        pid (List[int]): A list of process IDs to write to the PID file.
-    """
-    pid = list(map(lambda x: str(x) + "\n", pid))
-    with open(PID_FILE, "w", encoding="utf-8") as f:
-        f.writelines(pid)
+    content = read_pid_file()
+    if content is None:
+        content = {}
+    check_for_process(input_file, output_file)
+    value = [input_file, output_file]
+    content[pid] = value
+    filesystem.get_write_func(PID_FILE)(PID_FILE, content)
 
 
 def remove_pid(pid: int):
@@ -50,7 +56,9 @@ def remove_pid(pid: int):
     """
     content = read_pid_file()
     try:
-        content.pop(content.index(pid))
-    except ValueError:
-        return
-    overwrite_pid(content)
+        content.pop(pid)
+        filesystem.get_write_func(PID_FILE)(PID_FILE, content)
+    except KeyError:
+        msg = f"No logged running process with {pid=} found"
+        logging.warning(msg)
+

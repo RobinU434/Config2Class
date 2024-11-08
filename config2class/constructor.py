@@ -27,13 +27,16 @@ class ConfigConstructor:
             config (Dict[str, Any]): The configuration dictionary.
         """
         config = replace_tokens(config)
+        self.configs = []
         if len(config) > 1:
             name = "Config"
             content = config
         else:
             name, content = list(config.items())[0]
+        
         config_abstraction = self._construct_config_class(name, content)
         self.configs.append(config_abstraction)
+        print(len(self.configs))
 
     def write(self, out_path: str):
         """
@@ -52,6 +55,7 @@ class ConfigConstructor:
 
         code.pop(-1)
         with open(out_path, "w", encoding="utf-8") as file:
+            file.writelines([])
             file.writelines(code)
 
     def _construct_config_class(self, name: str, content: Dict[str, Any]):

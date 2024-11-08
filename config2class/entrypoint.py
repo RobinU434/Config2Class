@@ -1,4 +1,4 @@
-from config2class.service.api_funcs import read_pid_file, start_observer, stop_process
+from config2class.service.api_funcs import read_pid_file, start_service, stop_process
 import config2class.utils.filesystem as fs_utils
 from config2class.constructor import ConfigConstructor
 from glob import glob
@@ -45,7 +45,7 @@ class Config2Code:
         constructor.write(output)
 
     def start_service(
-        self, input: str, output: str = "config.py", verbose: int = False
+        self, input: str, output: str = "config.py", verbose: bool = False
     ):
         """start an observer to create the config automatically.
 
@@ -54,7 +54,7 @@ class Config2Code:
             output (str, optional): python file to write the dataclasses in. Defaults to "config.py".
             verbose (bool, optional): if you want to print logs to terminal
         """
-        start_observer(input, output, verbose)
+        start_service(input, output, verbose)
 
     def stop_service(self, pid: int):
         """stop a particular service
