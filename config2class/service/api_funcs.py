@@ -31,6 +31,13 @@ def start_service(input_file: str, output_file: str = "config.py", verbose: bool
     """
     if not os.path.exists(PID_FILE):
         Path(PID_FILE).touch()
+    if not os.path.exists(input_file):
+        print(f"Input file does not exist: {input_file}")
+        return
+    if not os.path.exists(output_file):
+        print(f"Output file does not exist: {output_file}")
+        return
+
     check_for_process(input_file, output_file)
     # Start a new Python process that runs this script with an internal flag for `background_task`
     process = subprocess.Popen(
