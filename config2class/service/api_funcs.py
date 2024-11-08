@@ -38,15 +38,16 @@ def start_service(input_file: str, output_file: str = "config.py", verbose: bool
     if not os.path.exists(output_file):
         print(f"Output file does not exist: {output_file}")
         return
-
+    print(__file__)
     if verbose:
         start_observer(input_file, output_file)
         return None
     
     check_for_process(input_file, output_file)
     # Start a new Python process that runs this script with an internal flag for `background_task`
+    backend_file = "/".join([*__file__.split("/")[:-1], "backend.py"])
     process = subprocess.Popen(
-        [sys.executable, "config2class/service/backend.py", input_file, output_file],
+        [sys.executable, backend_file, input_file, output_file],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         start_new_session=True,
