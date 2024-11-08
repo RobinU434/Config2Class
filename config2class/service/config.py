@@ -1,1 +1,1 @@
-PID_FILE = "data/pid.yaml"
+PID_FILE = "/".join([*__file__.split("/")[:-3], "data", "pid.yaml"])
