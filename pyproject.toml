@@ -6,6 +6,10 @@ authors = ["Robin Uhrich <robin.uhrich@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 
+include = [
+    { path = "config2class/data", format = ["sdist", "wheel"] }
+]
+
 [tool.poetry.scripts]
 config2class = "config2class.__main__:main"
 
