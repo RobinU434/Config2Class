@@ -1,3 +1,4 @@
+from types import NoneType
 from typing import Any, Dict, List
 from config2class.code_abstraction import ConfigAbstraction
 from config2class.utils.replacement import replace_tokens
@@ -36,7 +37,6 @@ class ConfigConstructor:
         
         config_abstraction = self._construct_config_class(name, content)
         self.configs.append(config_abstraction)
-        print(len(self.configs))
 
     def write(self, out_path: str):
         """
@@ -46,6 +46,7 @@ class ConfigConstructor:
             out_path (str): The path to the output file.
         """
         code = ["from dataclasses import dataclass\n"]
+        code.append("from types import NoneType\n")
         code.append("import config2class.utils.filesystem as fs_utils\n\n\n")
         code.append("from config2class.utils.replacement import replace_tokens\n\n\n")
 
@@ -75,7 +76,7 @@ class ConfigConstructor:
                 sub_config = self._construct_config_class(name="_" + key, content=value)
                 self.configs.append(sub_config)
                 config_abstraction.add_field(key, sub_config)
-            elif isinstance(value, (str, bool, float, list, tuple, int)):
+            elif isinstance(value, (str, bool, float, list, tuple, int, NoneType)):
                 config_abstraction.add_field(key, value)
 
         return config_abstraction

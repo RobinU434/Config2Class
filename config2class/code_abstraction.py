@@ -1,3 +1,4 @@
+from types import NoneType
 from typing import Any, Dict, List, Union
 
 
@@ -60,6 +61,8 @@ class ConfigAbstraction:
             if isinstance(item, ConfigAbstraction):
                 typ = item.name
                 post_init[key] = item
+            elif isinstance(item, NoneType):
+                typ = NoneType.__name__
             else:
                 typ = type(item).__name__
             code.append(f"    {key}: {typ}\n")
