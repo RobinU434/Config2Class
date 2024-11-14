@@ -1,7 +1,7 @@
 # Config2Code: A Tool to Generate Python Dataclasses from Configuration Files
 
 ![PyPI - Version](https://img.shields.io/pypi/v/config2class) ![PyPI - License](https://img.shields.io/pypi/l/config2class) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/config2class) [![Coverage Status](https://coveralls.io/repos/github/RobinU434/Config2Class/badge.svg)](https://coveralls.io/github/RobinU434/Config2Class) ![PyPI - Downloads](https://img.shields.io/pypi/dm/config2class)
-
+   
 
 ## Introduction
 
