@@ -131,7 +131,7 @@ config.host
 
 * [ ] add VS Code extension (create new file on config file save)
 * [ ] add renaming feature from config to code (renaming a field in the config file should resolve in renaming a field in the code
-* [ ] add token in config yaml to overwrite field automatically with a dependency on another field (something like `<c2c/2*:dep.config.a/c2c>`) or costum functions `<c2c/module.submodule:func(some_value)/c2c>`
+* [x] add token in config yaml to overwrite field automatically with a dependency on another field (something like `<c2c/2*:dep.config.a/c2c>`) or costum functions `<c2c/module.submodule:func(some_value)/c2c>`
 
 ## Contributing
 
