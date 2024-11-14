@@ -48,6 +48,7 @@ class ConfigConstructor:
         code = ["from dataclasses import dataclass\n"]
         code.append("from types import NoneType\n")
         code.append("import config2class.utils.filesystem as fs_utils\n\n\n")
+        code.append("from config2class.utils import deconstruct_config\n\n\n")
         code.append("from config2class.utils.replacement import replace_tokens\n\n\n")
 
         for abstraction in self.configs:

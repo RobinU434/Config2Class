@@ -79,6 +79,12 @@ class ConfigAbstraction:
         code.append("\n        else:")
         code.append("\n            content[first_key] = first_value")
         code.append("\n        return cls(**content)\n")
+        
+        code.append("\n    def to_file(self, file: str):")
+        code.append("\n        ending = file.split('.')[-1]")
+        code.append("\n        write_func = getattr(fs_utils, f'write_{ending}')")
+        code.append("\n        content = deconstruct_config(self)")
+        code.append("\n        write_func(file, content)\n")
 
         # add post init func
         if len(post_init) == 0:
