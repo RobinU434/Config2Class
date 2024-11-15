@@ -129,6 +129,7 @@ config.host
 
 * [ ] add VS Code extension (create new file on config file save)
 * [ ] add renaming feature from config to code (renaming a field in the config file should resolve in renaming a field in the code
+* [ ] expand token feature so you can access memeber of a list `{{<path>.<to>.<element>[<index>]}}`
 
 ## Contributing
 
