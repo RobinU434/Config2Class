@@ -63,7 +63,7 @@ def add_to_code_args(parser: ArgumentParser) -> ArgumentParser:
         help="The path to the output file where the generated",
         dest="output",
         type=str,
-        default="config.py",
+        default=None,
         required=False,
     )
     return parser
