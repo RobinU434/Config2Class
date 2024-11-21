@@ -19,7 +19,50 @@ class Config2Code:
         """
         pass
 
-    def to_code(self, input: str, output: str = "config.py"):
+    def to_code(self, inpath=str, outpath: str|None = None):
+        """
+        Converts a configuration file to a Python dataclass and writes the code to a file.
+        If target is a folder, applied recursively to all applicable files inside.
+
+        Args:
+            inpath (str): The path to the configuration file (YAML/JSON/TOML) or folder. 
+            output (str, optional): The path to the output file/folder where the generated
+                dataclass will be written. Defaults to config.py / pyconfig_dir.
+        """
+
+        inpath = os.path.abspath(inpath)
+        print("inpath", inpath)
+        print("isdir", os.path.isdir(inpath)
+)
+        if os.path.isdir(inpath):
+            outpath = outpath or os.path.join(os.path.dirname(inpath), "pyconfig_dir")
+            print("outpath", outpath)
+            # recursively parse 
+            for root, dirs, files in os.walk(inpath):
+                # record relative path
+                relpath = os.path.relpath(root, inpath)
+                print("relpath: ", relpath)
+
+                for dir_name in dirs:
+                    new_dir = os.path.normpath(os.path.join(outpath, relpath, dir_name))
+                    print("new dir: ", new_dir)
+                    os.makedirs(new_dir, exist_ok=True)
+
+                for file_name in files:
+                    if os.path.splitext(file_name)[1] not in [".yaml", ".toml", ".json"]: # supported extension should be a constant
+                        continue
+
+                    orig_name = os.path.splitext(file_name)[0] 
+                    new_name = os.path.normpath(os.path.join(outpath, relpath, orig_name+ ".py"))
+                    print("new file: ", new_name)
+                    self.to_code_single(input=os.path.join(root, file_name), output=new_name)
+        else:
+            self.to_code_single(input=inpath, output=outpath)
+
+
+
+
+    def to_code_single(self, input: str, output: str|None = None):
         """
         Converts a configuration file to a Python dataclass and writes the code to a file.
 
@@ -31,6 +74,7 @@ class Config2Code:
         Raises:
             NotImplementedError: If the input file format is not YAML or JSON or TOML.
         """
+        output = output or "config.py"
         try:
             ending = input.split(".")[-1]
             load_func = getattr(fs_utils, "load_" + ending)

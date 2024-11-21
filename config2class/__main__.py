@@ -7,7 +7,7 @@ def execute(args: dict) -> bool:
     module = Config2Code()
     match args["command"]:
         case "to-code":
-            module.to_code(input=args["input"], output=args["output"])
+            module.to_code(inpath=args["input"], outpath=args["output"])
 
         case "start-service":
             module.start_service(
