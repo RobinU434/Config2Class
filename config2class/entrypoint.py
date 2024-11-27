@@ -29,35 +29,39 @@ class Config2Code:
             output (str, optional): The path to the output file/folder where the generated
                 dataclass will be written. Defaults to config.py / pyconfig_dir.
         """
-
-        inpath = os.path.abspath(inpath)
-        print("inpath", inpath)
-        print("isdir", os.path.isdir(inpath)
-)
         if os.path.isdir(inpath):
-            outpath = outpath or os.path.join(os.path.dirname(inpath), "pyconfig_dir")
-            print("outpath", outpath)
-            # recursively parse 
-            for root, dirs, files in os.walk(inpath):
-                # record relative path
-                relpath = os.path.relpath(root, inpath)
-                print("relpath: ", relpath)
-
-                for dir_name in dirs:
-                    new_dir = os.path.normpath(os.path.join(outpath, relpath, dir_name))
-                    print("new dir: ", new_dir)
-                    os.makedirs(new_dir, exist_ok=True)
-
-                for file_name in files:
-                    if os.path.splitext(file_name)[1] not in [".yaml", ".toml", ".json"]: # supported extension should be a constant
-                        continue
-
-                    orig_name = os.path.splitext(file_name)[0] 
-                    new_name = os.path.normpath(os.path.join(outpath, relpath, orig_name+ ".py"))
-                    print("new file: ", new_name)
-                    self.to_code_single(input=os.path.join(root, file_name), output=new_name)
+            return self.to_code_multiple(inpath=inpath, outpath=outpath)
         else:
-            self.to_code_single(input=inpath, output=outpath)
+            return self.to_code_single(input=inpath, output=outpath)
+
+
+    def to_code_multiple(self, inpath=str, outpath: str|None = None):
+        """
+        Convert a folder of configuration files to a similar of folder of dataclasses.
+
+        Args:
+            inpath (str): The path to the configuration folder. 
+            output (str, optional): The path to the output file/folder where the generated
+                dataclass will be written. Defaults to pyconfig_dir.
+        """
+        inpath = os.path.abspath(inpath)
+        outpath = outpath or os.path.join(os.path.dirname(inpath), "pyconfig_dir")
+        # parse
+        for root, dirs, files in os.walk(inpath):
+            # record relative path
+            relpath = os.path.relpath(root, inpath)
+
+            for dir_name in dirs:
+                new_dir = os.path.normpath(os.path.join(outpath, relpath, dir_name))
+                os.makedirs(new_dir, exist_ok=True)
+
+            for file_name in files:
+                if os.path.splitext(file_name)[1] not in [".yaml", ".toml", ".json"]: # supported extension should be a constant
+                    continue
+
+                orig_name = os.path.splitext(file_name)[0] 
+                new_name = os.path.normpath(os.path.join(outpath, relpath, orig_name+ ".py"))
+                self.to_code_single(input=os.path.join(root, file_name), output=new_name)
 
 
 
