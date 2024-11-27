@@ -4,9 +4,9 @@ import os
 import shutil
 import subprocess
 import time
-from test import CONFIG_FILES, OUT_PATH
+from test import CONFIG_FILES, CONFIG_DIRS, OUT_PATH, OUT_PATH_FOLDER 
 from test.fixture import cleanup
-from test.utils import _check_created_config
+from test.utils import _check_created_config, _compare_folder_structure
 
 import pytest
 
@@ -42,7 +42,21 @@ def test_unknown_file(cleanup):
         assert True
 
 
-    
+@pytest.mark.parametrize(
+    "folder_name",
+    CONFIG_DIRS,
+)
+def test_folder_construction(folder_name: str):
+    process = Config2Code()
+    input_folder = "example/" + folder_name
+    process.to_code(input_folder, OUT_PATH_FOLDER)
+
+    # structure correctly recreated
+    assert _compare_folder_structure(input_folder, OUT_PATH_FOLDER), "Folder structure dissimilar"
+
+    # cleanup
+    shutil.rmtree(OUT_PATH_FOLDER)
+
 
 @pytest.mark.parametrize(
     "file_name",
@@ -77,3 +91,4 @@ def _test_service(cleanup, file_name):
     
     _check_created_config(input_file)
     assert False
+
