@@ -53,14 +53,14 @@ def add_start_service_args(parser: ArgumentParser) -> ArgumentParser:
 def add_to_code_args(parser: ArgumentParser) -> ArgumentParser:
     parser.add_argument(
         "--input",
-        help="The path to the configuration file (YAML or JSON).",
+        help="The path to the configuration file (YAML/JSON/TOML) or folder.",
         dest="input",
         type=str,
         required=True,
     )
     parser.add_argument(
         "--output",
-        help="The path to the output file where the generated",
+        help="The path to the generated output dataclass(es).",
         dest="output",
         type=str,
         default=None,
