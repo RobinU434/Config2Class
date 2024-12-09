@@ -18,6 +18,7 @@ python = "^3.10"
 pyaml = "^23.0.0"
 toml = "^0.10.2"
 watchdog = "^6.0.0"
+omegaconf = "^2.3.0"
 
 
 [tool.poetry.group.test.dependencies]
