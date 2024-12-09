@@ -11,5 +11,4 @@ app_config:
     authentication: true
     caching:
       enabled: true
-      cache_size: 256
-    foo: null
+      cache_size: ${app_config.database.port}
