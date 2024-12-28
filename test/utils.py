@@ -1,8 +1,8 @@
     
 import importlib
-from config2class.utils import filesystem
-from config2class.utils.deconstruction import deconstruct_config
-from config2class.utils.replacement import replace_tokens
+from config2class._utils import filesystem
+from config2class._utils.deconstruction import deconstruct_config
+from config2class._utils.replacement import replace_tokens
 from test import OUT_PATH
 
 def _check_created_config(input_file: str):

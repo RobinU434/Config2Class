@@ -10,11 +10,11 @@ from test.utils import _check_created_config
 
 import pytest
 
-import config2class.service.api_funcs as api_funcs
-from config2class.entrypoint import Config2Code
-from config2class.service.api_funcs import start_service, stop_process
-from config2class.utils import deconstruct_config, filesystem
-from config2class.utils.replacement import replace_tokens
+import config2class._service.api_funcs as api_funcs
+from config2class._core.entrypoint import Config2Code
+from config2class._service.api_funcs import start_service, stop_process
+from config2class._utils import deconstruct_config, filesystem
+from config2class._utils.replacement import replace_tokens
 
 
 
