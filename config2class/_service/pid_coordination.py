@@ -2,8 +2,8 @@
 import logging
 import sys
 from typing import Dict, Tuple
-from config2class.utils import filesystem
-from config2class.service.config import PID_FILE
+from config2class._utils import filesystem
+from config2class._service.config import PID_FILE
 
 
 def read_pid_file() -> Dict[int, Tuple[str, str]]:

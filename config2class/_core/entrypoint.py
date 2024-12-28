@@ -1,6 +1,6 @@
-from config2class.service.api_funcs import read_pid_file, start_service, stop_process
-import config2class.utils.filesystem as fs_utils
-from config2class.constructor import ConfigConstructor
+from config2class._service.api_funcs import read_pid_file, start_service, stop_process
+import config2class._utils.filesystem as fs_utils
+from config2class._core.constructor import ConfigConstructor
 from glob import glob
 import os
 

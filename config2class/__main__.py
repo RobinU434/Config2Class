@@ -1,6 +1,6 @@
 from argparse import ArgumentParser
-from config2class.entrypoint import Config2Code
-from config2class.utils.parser import setup_parser
+from config2class._core.entrypoint import Config2Code
+from config2class._utils.parser import setup_parser
 
 
 def execute(args: dict) -> bool:

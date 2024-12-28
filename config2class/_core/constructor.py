@@ -1,7 +1,7 @@
 from types import NoneType
 from typing import Any, Dict, List
-from config2class.code_abstraction import ConfigAbstraction
-from config2class.utils.replacement import replace_tokens
+from config2class._core.code_abstraction import ConfigAbstraction
+from config2class._utils.replacement import replace_tokens
 
 
 class ConfigConstructor:

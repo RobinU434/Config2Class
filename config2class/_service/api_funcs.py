@@ -10,11 +10,11 @@ from typing import Any, Callable, Dict
 from watchdog.events import FileSystemEventHandler, FileModifiedEvent
 from watchdog.observers import Observer
 
-from config2class.constructor import ConfigConstructor
-from config2class.service.backend import start_observer
-from config2class.service.config import PID_FILE
-from config2class.service.pid_coordination import add_pid, check_for_process, read_pid_file, remove_pid
-import config2class.utils.filesystem as fs_utils
+from config2class._core.constructor import ConfigConstructor
+from config2class._service.backend import start_observer
+from config2class._service.config import PID_FILE
+from config2class._service.pid_coordination import add_pid, check_for_process, read_pid_file, remove_pid
+import config2class._utils.filesystem as fs_utils
 
 
 

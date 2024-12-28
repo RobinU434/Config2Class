@@ -1,7 +1,7 @@
 import sys
 import time
-from config2class.constructor import ConfigConstructor
-import config2class.utils.filesystem as fs_utils
+from config2class._core.constructor import ConfigConstructor
+import config2class._utils.filesystem as fs_utils
 from watchdog.events import FileSystemEventHandler, FileModifiedEvent
 from watchdog.observers import Observer
 import logging 
