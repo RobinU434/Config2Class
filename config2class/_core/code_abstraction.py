@@ -55,7 +55,7 @@ class ConfigAbstraction:
         Returns:
             List[str]: A list of strings representing the generated Python code.
         """
-        code = ["@dataclass\n", f"class {self.name}:\n"]
+        code = ["@dataclass\n", f"class {self.name}(StructuredConfig):\n"]
         post_init = {}
         for key, item in self.fields.items():
             if isinstance(item, ConfigAbstraction):
@@ -66,25 +66,6 @@ class ConfigAbstraction:
             else:
                 typ = type(item).__name__
             code.append(f"    {key}: {typ}\n")
-
-        # add class method
-        code.append("\n    @classmethod")
-        code.append(f'\n    def from_file(cls, file: str) -> "{self.name}":')
-        code.append("\n        ending = file.split('.')[-1]")
-        code.append("\n        content = getattr(fs_utils, f'load_{ending}')(file)")
-        code.append("\n        content = replace_tokens(content)")
-        code.append("\n        first_key, first_value = content.popitem()")
-        code.append("\n        if len(content) == 0 and isinstance(first_value, dict):")
-        code.append("\n            return cls(**first_value)")
-        code.append("\n        else:")
-        code.append("\n            content[first_key] = first_value")
-        code.append("\n        return cls(**content)\n")
-        
-        code.append("\n    def to_file(self, file: str):")
-        code.append("\n        ending = file.split('.')[-1]")
-        code.append("\n        write_func = getattr(fs_utils, f'write_{ending}')")
-        code.append("\n        content = deconstruct_config(self)")
-        code.append("\n        write_func(file, content)\n")
 
         # add post init func
         if len(post_init) == 0:
