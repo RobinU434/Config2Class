@@ -3,6 +3,7 @@ from typing import Any, Dict
 
 from omegaconf import DictConfig, OmegaConf
 
+from config2class._utils.deconstruction import deconstruct_config
 import config2class._utils.filesystem as fs_utils
 from config2class.api.construct import get_content, preprocess_container
 
@@ -29,3 +30,6 @@ class StructuredConfig(ABC):
         write_func = getattr(fs_utils, f"write_{ending}")
         content = OmegaConf.to_container(self, resolve=resolve)
         write_func(file, content)
+
+    def to_container(self) -> Dict[str, Any]:
+        return deconstruct_config(self)
