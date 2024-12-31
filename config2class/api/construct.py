@@ -1,5 +1,4 @@
-from ast import Dict
-from typing import Any
+from typing import Any, Dict
 import config2class._utils.filesystem as fs_utils
 from omegaconf import OmegaConf
 
