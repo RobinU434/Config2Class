@@ -28,7 +28,8 @@ class StructuredConfig(ABC):
     def to_file(self, file: str, resolve: bool = False):
         ending = file.split(".")[-1]
         write_func = getattr(fs_utils, f"write_{ending}")
-        content = OmegaConf.to_container(self, resolve=resolve)
+        dict_config = OmegaConf.create(self)
+        content = OmegaConf.to_container(dict_config, resolve=resolve)
         write_func(file, content)
 
     def to_container(self) -> Dict[str, Any]:
