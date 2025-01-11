@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Any, Dict
 import config2class._utils.filesystem as fs_utils
 from omegaconf import OmegaConf
@@ -20,7 +21,7 @@ def preprocess_container(content: Dict[str, Any]) -> Dict[str, Any]:
         content[first_key] = first_value
         return content
 
-def get_content(file_path: str, resolve: bool = False) -> Dict[str, Any]:
+def get_content(file_path: str | Path, resolve: bool = False) -> Dict[str, Any]:
     """build content from file.
 
     Args:
@@ -30,7 +31,9 @@ def get_content(file_path: str, resolve: bool = False) -> Dict[str, Any]:
     Returns:
         Dict[str, Any]: config container
     """
-    ending = file_path.split('.')[-1]
+    if isinstance(file_path, str):
+        file_path = Path(file_path)
+    ending = file_path.suffix
     content = getattr(fs_utils, f'load_{ending}')(file_path)
     content = OmegaConf.create(content)
     content = OmegaConf.to_container(content, resolve=resolve)

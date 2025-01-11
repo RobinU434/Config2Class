@@ -1,4 +1,6 @@
 from abc import ABC
+import os
+from pathlib import Path
 from typing import Any, Dict
 
 from omegaconf import DictConfig, OmegaConf
@@ -10,7 +12,10 @@ from config2class.api.construct import get_content, preprocess_container
 
 class StructuredConfig(ABC):
     @classmethod
-    def from_file(cls, file: str, resolve: bool = False) -> object:
+    def from_file(cls, file: str | Path, resolve: bool = False) -> object:
+        if isinstance(file, str):
+            file = Path(file)
+        
         content = get_content(file, resolve=resolve)
         return cls(**content)
     
@@ -25,10 +30,13 @@ class StructuredConfig(ABC):
         config = preprocess_container(config)
         return cls(**config)
 
-    def to_file(self, file: str, resolve: bool = False):
-        ending = file.split(".")[-1]
+    def to_file(self, file: str | Path, resolve: bool = False):
+        if isinstance(file, str):
+            file = Path(file)
+        ending = file.suffix
+        Path.mkdir(file.parent)
         write_func = getattr(fs_utils, f"write_{ending}")
-        dict_config = OmegaConf.create(self)
+        dict_config = OmegaConf.create(self.to_container())
         content = OmegaConf.to_container(dict_config, resolve=resolve)
         write_func(file, content)
 
