@@ -11,7 +11,7 @@ def preprocess_container(content: Dict[str, Any]) -> Dict[str, Any]:
         content (Dict[str, Any]): config container
 
     Returns:
-        Dict[str, Any]: config container
+        Dict[str, Any]: config containerq
     """
     first_key, first_value = content.popitem()
     if len(content) == 0 and isinstance(first_value, dict):
@@ -33,7 +33,7 @@ def get_content(file_path: str | Path, resolve: bool = False) -> Dict[str, Any]:
     """
     if isinstance(file_path, str):
         file_path = Path(file_path)
-    ending = file_path.suffix
+    ending = file_path.suffix.lstrip(". ")
     content = getattr(fs_utils, f'load_{ending}')(file_path)
     content = OmegaConf.create(content)
     content = OmegaConf.to_container(content, resolve=resolve)

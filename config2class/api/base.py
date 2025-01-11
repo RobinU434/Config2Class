@@ -33,7 +33,7 @@ class StructuredConfig(ABC):
     def to_file(self, file: str | Path, resolve: bool = False):
         if isinstance(file, str):
             file = Path(file)
-        ending = file.suffix
+        ending = file.suffix.lstrip(".")
         Path.mkdir(file.parent)
         write_func = getattr(fs_utils, f"write_{ending}")
         dict_config = OmegaConf.create(self.to_container())
