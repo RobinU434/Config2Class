@@ -33,7 +33,7 @@ def start_service(input_file: str, output_file: str = "config.py", verbose: bool
     if not os.path.exists(PID_FILE):
         path = Path(PID_FILE)
         path.parent.mkdir(parents=True, exist_ok=True)
-    path.touch(exist_ok=True)           
+        path.touch(exist_ok=True)           
     if not os.path.exists(input_file):
         print(f"Input file does not exist: {input_file}")
         return
