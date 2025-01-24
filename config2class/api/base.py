@@ -14,17 +14,17 @@ class StructuredConfig(ABC):
     @classmethod
     def from_file(cls, file: str | Path, resolve: bool = False) -> object:
         if isinstance(file, str):
-            file = Path(file)       
-        
+            file = Path(file)
+
         content = get_content(file, resolve=resolve)
         return cls(**content)
-    
+
     @classmethod
     def from_dict_config(cls, config: DictConfig, resolve: bool = False) -> object:
         container = OmegaConf.to_container(config, resolve=resolve)
         container = preprocess_container(container)
         return cls(**container)
-    
+
     @classmethod
     def from_container(cls, config: Dict[str, Any]) -> object:
         config = preprocess_container(config)

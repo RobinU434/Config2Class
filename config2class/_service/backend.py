@@ -4,7 +4,7 @@ from config2class._core.constructor import ConfigConstructor
 import config2class._utils.filesystem as fs_utils
 from watchdog.events import FileSystemEventHandler, FileModifiedEvent
 from watchdog.observers import Observer
-import logging 
+import logging
 from typing import Any, Callable, Dict
 
 
@@ -76,6 +76,7 @@ def start_observer(input_file: str, output_file: str = "config.py"):
     # Keep running until the stop_event is set
     while True:
         time.sleep(2)
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:

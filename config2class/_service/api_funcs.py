@@ -13,12 +13,18 @@ from watchdog.observers import Observer
 from config2class._core.constructor import ConfigConstructor
 from config2class._service.backend import start_observer
 from config2class._service.config import PID_FILE
-from config2class._service.pid_coordination import add_pid, check_for_process, read_pid_file, remove_pid
+from config2class._service.pid_coordination import (
+    add_pid,
+    check_for_process,
+    read_pid_file,
+    remove_pid,
+)
 import config2class._utils.filesystem as fs_utils
 
 
-
-def start_service(input_file: str, output_file: str = "config.py", verbose: bool = False):
+def start_service(
+    input_file: str, output_file: str = "config.py", verbose: bool = False
+):
     """
     Starts a new background thread to observe changes to the input file and update the output configuration file.
     Logs the start of the process, creates a PID record, and sets up logging.
@@ -33,7 +39,7 @@ def start_service(input_file: str, output_file: str = "config.py", verbose: bool
     if not os.path.exists(PID_FILE):
         path = Path(PID_FILE)
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.touch(exist_ok=True)           
+        path.touch(exist_ok=True)
     if not os.path.exists(input_file):
         print(f"Input file does not exist: {input_file}")
         return
@@ -44,7 +50,7 @@ def start_service(input_file: str, output_file: str = "config.py", verbose: bool
     if verbose:
         start_observer(input_file, output_file)
         return None
-    
+
     check_for_process(input_file, output_file)
     # Start a new Python process that runs this script with an internal flag for `background_task`
     backend_file = "/".join([*__file__.split("/")[:-1], "backend.py"])
@@ -58,7 +64,7 @@ def start_service(input_file: str, output_file: str = "config.py", verbose: bool
 
     print(f"Background process started with PID {process.pid}")
     return process.pid
-    
+
 
 def stop_process(pid: int):
     """
@@ -73,7 +79,7 @@ def stop_process(pid: int):
     """
     # Check if the PID file exists
     remove_pid(pid)
-    
+
     # Try to terminate the process using its PID
     try:
         os.kill(pid, signal.SIGTERM)

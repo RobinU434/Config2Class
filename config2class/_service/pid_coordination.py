@@ -20,8 +20,9 @@ def read_pid_file() -> Dict[int, Tuple[str, str]]:
 
     content = filesystem.get_load_func(PID_FILE)(PID_FILE)
     if content is None:
-        content = dict()    
+        content = dict()
     return content
+
 
 def check_for_process(input_file: str, output_file: str):
     content = read_pid_file()
@@ -33,7 +34,7 @@ def check_for_process(input_file: str, output_file: str):
         msg = f"There is already a process (pid: {content_rev[tuple(value)]}) which maps from {input_file} to {output_file}"
         logging.error(msg)
         sys.exit()
-    
+
 
 def add_pid(pid: int, input_file: str, output_file: str):
     """
@@ -68,4 +69,3 @@ def remove_pid(pid: int):
     except KeyError:
         msg = f"No logged running process with {pid=} found"
         logging.warning(msg)
-

@@ -28,19 +28,25 @@ def get_load_func(path: str | Path) -> Callable[[str], Dict[str, Any]]:
     return globals()["load_" + path.split(".")[-1]]
 
 
-def write_yaml(path: str | Path, content: Dict[str, Any], encoding: str = "utf-8") -> Dict[str, Any]:
+def write_yaml(
+    path: str | Path, content: Dict[str, Any], encoding: str = "utf-8"
+) -> Dict[str, Any]:
     with open(path, "w", encoding=encoding) as file:
         yaml.dump(content, file)
     return content
 
 
-def write_json(path: str | Path, content: Dict[str, Any], encoding: str = "utf-8") -> Dict[str, Any]:
+def write_json(
+    path: str | Path, content: Dict[str, Any], encoding: str = "utf-8"
+) -> Dict[str, Any]:
     with open(path, "w", encoding=encoding) as file:
         json.dump(content, file)
     return content
 
 
-def write_toml(path: str | Path, content: Dict[str, Any], encoding: str = "utf-8") -> Dict[str, Any]:
+def write_toml(
+    path: str | Path, content: Dict[str, Any], encoding: str = "utf-8"
+) -> Dict[str, Any]:
     with open(path, "w", encoding=encoding) as file:
         toml.dump(content, file)
     return content

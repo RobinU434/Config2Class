@@ -21,6 +21,7 @@ def preprocess_container(content: Dict[str, Any]) -> Dict[str, Any]:
         content[first_key] = first_value
         return content
 
+
 def get_content(file_path: str | Path, resolve: bool = False) -> Dict[str, Any]:
     """build content from file.
 
@@ -34,7 +35,7 @@ def get_content(file_path: str | Path, resolve: bool = False) -> Dict[str, Any]:
     if isinstance(file_path, str):
         file_path = Path(file_path)
     ending = file_path.suffix.lstrip(". ")
-    content = getattr(fs_utils, f'load_{ending}')(file_path)
+    content = getattr(fs_utils, f"load_{ending}")(file_path)
     content = OmegaConf.create(content)
     content = OmegaConf.to_container(content, resolve=resolve)
     return preprocess_container(content)

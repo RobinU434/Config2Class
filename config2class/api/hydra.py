@@ -5,7 +5,7 @@ from argparse import (
     _StoreAction,
     _StoreTrueAction,
     _VersionAction,
-    Namespace
+    Namespace,
 )
 from textwrap import dedent
 from typing import Any, Callable
@@ -15,7 +15,6 @@ from hydra._internal.deprecation_warning import deprecation_warning
 from hydra._internal.utils import _run_hydra, get_args_parser
 from hydra.main import _UNSPECIFIED_, _get_rerun_conf
 from hydra.core.utils import _flush_loggers
-
 
 
 def setup_parser(new_parser: ArgumentParser = None) -> ArgumentParser:
@@ -96,9 +95,7 @@ def hydra_wrapper(
     task_func_args = {k: getattr(cli_args, k) for k in parameters}
 
     if cli_args.experimental_rerun is not None:
-        cfg = _get_rerun_conf(
-            cli_args.experimental_run, cli_args.overrides
-        )
+        cfg = _get_rerun_conf(cli_args.experimental_run, cli_args.overrides)
         task_func(**{config_var_name: cfg, **task_func_args})
         _flush_loggers()
     else:
