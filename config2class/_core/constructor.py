@@ -1,3 +1,4 @@
+from pathlib import Path
 from types import NoneType
 from typing import Any, Dict, List
 from config2class._core.code_abstraction import ConfigAbstraction
@@ -54,6 +55,8 @@ class ConfigConstructor:
             code.append("\n\n")
 
         code.pop(-1)
+        out_path = Path(out_path)
+        Path.touch(out_path, exist_ok=True)
         with open(out_path, "w", encoding="utf-8") as file:
             file.writelines([])
             file.writelines(code)

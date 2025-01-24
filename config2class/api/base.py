@@ -14,7 +14,7 @@ class StructuredConfig(ABC):
     @classmethod
     def from_file(cls, file: str | Path, resolve: bool = False) -> object:
         if isinstance(file, str):
-            file = Path(file)
+            file = Path(file)       
         
         content = get_content(file, resolve=resolve)
         return cls(**content)
