@@ -15,7 +15,7 @@ def read_pid_file() -> Dict[int, Tuple[str, str]]:
     """
     pid_file = Path(PID_FILE)
     if not pid_file.exists():
-        pid_file.mkdir(parents=True, exist_ok=True)
+        pid_file.parent.mkdir(parents=True, exist_ok=True)
         pid_file.touch(exist_ok=True)
     content = filesystem.get_load_func(PID_FILE)(PID_FILE)
     return content

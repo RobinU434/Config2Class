@@ -55,8 +55,10 @@ class ConfigConstructor:
             code.append("\n\n")
 
         code.pop(-1)
-        out_path = Path(out_path)
-        Path.touch(out_path, exist_ok=True)
+        out_path: Path = Path(out_path)
+        if not out_path.exists():
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            out_path.touch(exist_ok=True)
         with open(out_path, "w", encoding="utf-8") as file:
             file.writelines([])
             file.writelines(code)
