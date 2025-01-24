@@ -1,5 +1,5 @@
-
 import logging
+from pathlib import Path
 import sys
 from typing import Dict, Tuple
 from config2class._utils import filesystem
@@ -13,6 +13,10 @@ def read_pid_file() -> Dict[int, Tuple[str, str]]:
     Returns:
         Dict[str, Any]: Mapping from PID to observed files
     """
+    pid_file = Path(PID_FILE)
+    if not pid_file.exists():
+        pid_file.mkdir(parents=True, exist_ok=True)
+        pid_file.touch(exist_ok=True)
     content = filesystem.get_load_func(PID_FILE)(PID_FILE)
     return content
 
