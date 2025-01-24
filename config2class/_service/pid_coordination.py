@@ -17,7 +17,10 @@ def read_pid_file() -> Dict[int, Tuple[str, str]]:
     if not pid_file.exists():
         pid_file.parent.mkdir(parents=True, exist_ok=True)
         pid_file.touch(exist_ok=True)
+
     content = filesystem.get_load_func(PID_FILE)(PID_FILE)
+    if content is None:
+        content = dict()    
     return content
 
 def check_for_process(input_file: str, output_file: str):
