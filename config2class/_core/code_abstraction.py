@@ -48,9 +48,12 @@ class ConfigAbstraction:
         """
         self.fields[key] = value
 
-    def write_code(self) -> List[str]:
+    def write_code(self, init_none: bool = False) -> List[str]:
         """
         Generates Python code for a dataclass representing the configuration structure.
+
+        Args:
+            init_none (bool, optional): Would you like to init all argument with None or just declare members in the class. Defaults to False
 
         Returns:
             List[str]: A list of strings representing the generated Python code.
@@ -65,7 +68,13 @@ class ConfigAbstraction:
                 typ = NoneType.__name__
             else:
                 typ = type(item).__name__
-            code.append(f"    {key}: {typ}\n")
+            line = f"    {key}: {typ}"
+
+            if init_none:
+                line += " = None"
+
+            line += "\n"
+            code.append(line)
 
         # add post init func
         if len(post_init) == 0:

@@ -1,4 +1,5 @@
 from argparse import ArgumentParser
+from typing import Tuple, Dict, List
 
 
 def add_clear_logs_args(parser: ArgumentParser) -> ArgumentParser:
@@ -66,35 +67,51 @@ def add_to_code_args(parser: ArgumentParser) -> ArgumentParser:
         default="config.py",
         required=False,
     )
+    parser.add_argument(
+        "--init-none",
+        help="",
+        dest="init_none",
+        action="store_true",
+        required=False,
+    )
     return parser
 
 
-def setup_config2code_parser(parser: ArgumentParser) -> ArgumentParser:
+def setup_config2code_parser(
+    parser: ArgumentParser,
+) -> Tuple[ArgumentParser, Dict[str, ArgumentParser]]:
+    subparser = {}
     command_subparser = parser.add_subparsers(dest="command", title="command")
     to_code = command_subparser.add_parser(
         "to-code",
         help="Converts a configuration file to a Python dataclass and writes the code to a file.",
     )
     to_code = add_to_code_args(to_code)
+    subparser["to_code"] = to_code
     start_service = command_subparser.add_parser(
         "start-service", help="start an observer to create the config automatically."
     )
     start_service = add_start_service_args(start_service)
+    subparser["start_service"] = start_service
     stop_service = command_subparser.add_parser(
         "stop-service", help="stop a particular service"
     )
     stop_service = add_stop_service_args(stop_service)
+    subparser["stop_service"] = stop_service
     stop_all = command_subparser.add_parser("stop-all", help="stop all services")
     stop_all = add_stop_all_args(stop_all)
+    subparser["stop_all"] = stop_all
     list_services = command_subparser.add_parser(
         "list-services", help="print currently running processes"
     )
     list_services = add_list_services_args(list_services)
+    subparser["list_services"] = list_services
     clear_logs = command_subparser.add_parser("clear-logs", help="delete all log files")
     clear_logs = add_clear_logs_args(clear_logs)
-    return parser
+    subparser["clear_logs"] = clear_logs
+    return parser, subparser
 
 
 def setup_parser(parser: ArgumentParser) -> ArgumentParser:
-    parser = setup_config2code_parser(parser)
+    parser, _ = setup_config2code_parser(parser)
     return parser

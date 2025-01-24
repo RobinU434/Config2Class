@@ -1,13 +1,19 @@
 from argparse import ArgumentParser
+from pathlib import Path
+from pyargwriter import api
+from config2class._utils.parser import setup_config2code_parser
 from config2class._core.entrypoint import Config2Code
 from config2class._utils.parser import setup_parser
 
 
 def execute(args: dict) -> bool:
     module = Config2Code()
+    _, command_parser = setup_config2code_parser(ArgumentParser())
     match args["command"]:
         case "to-code":
-            module.to_code(input=args["input"], output=args["output"])
+            module.to_code(
+                input=args["input"], output=args["output"], init_none=args["init_none"]
+            )
 
         case "start-service":
             module.start_service(

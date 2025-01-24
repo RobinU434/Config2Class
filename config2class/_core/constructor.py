@@ -35,23 +35,25 @@ class ConfigConstructor:
             content = config
         else:
             name, content = list(config.items())[0]
-        
+
         config_abstraction = self._construct_config_class(name, content)
         self.configs.append(config_abstraction)
 
-    def write(self, out_path: str):
+    def write(self, out_path: str, init_none: bool = False):
         """
         Writes the generated Python code to a file.
 
         Args:
             out_path (str): The path to the output file.
+            init_none (bool, optional): Would you like to init all argument with None or just declare members in the class. Defaults to False
+
         """
         code = ["from dataclasses import dataclass\n"]
         code.append("from types import NoneType\n")
         code.append("from config2class.api.base import StructuredConfig\n\n\n")
-        
+
         for abstraction in self.configs:
-            code.extend(abstraction.write_code())
+            code.extend(abstraction.write_code(init_none))
             code.append("\n\n")
 
         code.pop(-1)

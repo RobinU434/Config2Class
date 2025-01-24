@@ -19,7 +19,7 @@ class Config2Code:
         """
         pass
 
-    def to_code(self, input: str, output: str = "config.py"):
+    def to_code(self, input: str, output: str = "config.py", init_none: bool = False):
         """
         Converts a configuration file to a Python dataclass and writes the code to a file.
 
@@ -27,6 +27,7 @@ class Config2Code:
             input (str): The path to the configuration file (YAML or JSON).
             output (str, optional): The path to the output file where the generated
                 dataclass code will be written. Defaults to "config.py".
+            init_none (bool, optional): Would you like to init all argument with None or just declare members in the class. Defaults to False
 
         Raises:
             NotImplementedError: If the input file format is not YAML or JSON or TOML.
@@ -42,7 +43,7 @@ class Config2Code:
         content = load_func(input)
         constructor = ConfigConstructor()
         constructor.construct(content)
-        constructor.write(output)
+        constructor.write(output, init_none)
 
     def start_service(
         self, input: str, output: str = "config.py", verbose: bool = False
