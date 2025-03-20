@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Any, Dict
 
 from omegaconf import DictConfig, OmegaConf
+import yaml
 
 from config2class._utils.deconstruction import deconstruct_config
 import config2class._utils.filesystem as fs_utils
@@ -12,7 +13,7 @@ from config2class.api.construct import get_content, preprocess_container
 
 class StructuredConfig(ABC):
     @classmethod
-    def from_file(cls, file: str | Path, resolve: bool = False) -> object:
+    def from_file(cls, file: str | Path, resolve: bool = True) -> object:
         if isinstance(file, str):
             file = Path(file)
 
@@ -20,7 +21,7 @@ class StructuredConfig(ABC):
         return cls(**content)
 
     @classmethod
-    def from_dict_config(cls, config: DictConfig, resolve: bool = False) -> object:
+    def from_dict_config(cls, config: DictConfig, resolve: bool = True) -> object:
         container = OmegaConf.to_container(config, resolve=resolve)
         container = preprocess_container(container)
         return cls(**container)
@@ -30,7 +31,7 @@ class StructuredConfig(ABC):
         config = preprocess_container(config)
         return cls(**config)
 
-    def to_file(self, file: str | Path, resolve: bool = False):
+    def to_file(self, file: str | Path, resolve: bool = True):
         if isinstance(file, str):
             file = Path(file)
         ending = file.suffix.lstrip(".")
@@ -42,3 +43,10 @@ class StructuredConfig(ABC):
 
     def to_container(self) -> Dict[str, Any]:
         return deconstruct_config(self)
+
+    def display(self):
+        print(repr(self))   
+    
+    def __repr__(self):
+        return yaml.dump(self.to_container(), indent=2)
+
