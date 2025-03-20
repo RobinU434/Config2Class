@@ -9,11 +9,12 @@ from typing import Any, Callable, Dict
 
 
 class ConfigHandler(FileSystemEventHandler):
-    def __init__(self, input_file: str, output_file: str = "config"):
+    def __init__(self, input_file: str, output_file: str = "config", init_none: bool = False):
         super().__init__()
 
         self.input_file = input_file
         self.output_file = output_file
+        self.init_none = init_none
         self.config_constructor = ConfigConstructor()
         self._load_func = self._get_load_func(self.input_file)
         try:
@@ -57,13 +58,13 @@ class ConfigHandler(FileSystemEventHandler):
         """
         content = self._load_func(self.input_file)
         self.config_constructor.construct(content)
-        self.config_constructor.write(self.output_file)
+        self.config_constructor.write(self.output_file, self.init_none)
         logging.info(f"New config written to {self.output_file}")
 
 
-def start_observer(input_file: str, output_file: str = "config.py"):
+def start_observer(input_file: str, output_file: str = "config.py", init_none: bool = False):
     # Create an event handler and an observer
-    event_handler = ConfigHandler(input_file=input_file, output_file=output_file)
+    event_handler = ConfigHandler(input_file=input_file, output_file=output_file, init_none=init_none)
     observer = Observer()
     observer.schedule(event_handler, input_file, recursive=True)
 

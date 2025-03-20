@@ -23,7 +23,7 @@ import config2class._utils.filesystem as fs_utils
 
 
 def start_service(
-    input_file: str, output_file: str = "config.py", verbose: bool = False
+    input_file: str, output_file: str = "config.py", verbose: bool = False, init_none: bool = False,
 ):
     """
     Starts a new background thread to observe changes to the input file and update the output configuration file.
@@ -33,6 +33,7 @@ def start_service(
         input_file (str): Path to the file to observe.
         output_file (str): Path to the configuration output file.
         verbose (bool, optional): if you want to print logs to terminal
+        init_none (bool, optional): Would you like to init all argument with None or just declare members in the class. Defaults to False
     Returns:
         threading.Thread: The started thread running the observer service.
     """
