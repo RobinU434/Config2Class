@@ -1,3 +1,4 @@
+from omegaconf import OmegaConf
 from config2class._service.api_funcs import read_pid_file, start_service, stop_process
 import config2class._utils.filesystem as fs_utils
 from config2class._core.constructor import ConfigConstructor
@@ -19,7 +20,7 @@ class Config2Code:
         """
         pass
 
-    def to_code(self, input: str, output: str = "config.py", init_none: bool = False):
+    def to_code(self, input: str, output: str = "config.py", init_none: bool = False, omega_conf: bool = False):
         """
         Converts a configuration file to a Python dataclass and writes the code to a file.
 
@@ -28,12 +29,17 @@ class Config2Code:
             output (str, optional): The path to the output file where the generated
                 dataclass code will be written. Defaults to "config.py".
             init_none (bool, optional): Would you like to init all argument with None or just declare members in the class. Defaults to False
-
+            omega_conf: (bool, optional): Set this flag to indicate load load the given config in a OmegaConf fashion. 
+                Configs are then allowed to spread over multiple files. Defaults to False 
         Raises:
             NotImplementedError: If the input file format is not YAML or JSON or TOML.
         """
+        ending = input.split(".")[-1]
+
+        if omega_conf and ending in ["yaml", "yml"]:
+            # OmegaConf.
+            pass
         try:
-            ending = input.split(".")[-1]
             load_func = getattr(fs_utils, "load_" + ending)
         except AttributeError as error:
             raise NotImplementedError(
@@ -46,7 +52,7 @@ class Config2Code:
         constructor.write(output, init_none)
 
     def start_service(
-        self, input: str, output: str = "config.py", verbose: bool = False
+        self, input: str, output: str = "config.py", verbose: bool = False, init_none: bool = False,
     ):
         """start an observer to create the config automatically.
 
@@ -54,8 +60,9 @@ class Config2Code:
             input (str): input file you want to have observed
             output (str, optional): python file to write the dataclasses in. Defaults to "config.py".
             verbose (bool, optional): if you want to print logs to terminal
+            init_none (bool, optional): Would you like to init all argument with None or just declare members in the class. Defaults to False
         """
-        start_service(input, output, verbose)
+        start_service(input, output, verbose, init_none)
 
     def stop_service(self, pid: int):
         """stop a particular service
