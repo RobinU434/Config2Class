@@ -15,10 +15,10 @@ def _check_created_config(input_file: str):
     print(f"num lines in {OUT_PATH}: {len(content)}")
     try:
         config_cls = getattr(generated_module, "App_config")
-        config = config_cls.from_file(input_file)
+        config = config_cls.from_file(input_file, resolve=False)
     except AttributeError:
         config_cls = getattr(generated_module, "Config")
-        config = config_cls.from_file(input_file)
+        config = config_cls.from_file(input_file, resolve=False)
 
     file_name = input_file.split("/")[-1]
     ending = file_name.split(".")[-1]
@@ -29,4 +29,6 @@ def _check_created_config(input_file: str):
         config_file = first_value
     else:
         config_file[first_key] = first_value
-    assert deconstruct_config(config) == config_file
+    print(config.to_container())
+    print(config_file)
+    assert config.to_container() == config_file, f" {config.to_container()=}\n{config_file=}"
