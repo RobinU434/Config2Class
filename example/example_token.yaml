@@ -1,5 +1,5 @@
 app_config:
-  test_value: "{{app_config.database.port}}"
+  test_value: "${app_config.database.port}"
   name: "MyApp"
   version: "1.0.0"
   database:
