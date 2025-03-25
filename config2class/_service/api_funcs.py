@@ -1,14 +1,9 @@
-import logging
 import os
 import signal
 import subprocess
 import sys
-import threading
-import time
 from pathlib import Path
-from typing import Any, Callable, Dict
-from watchdog.events import FileSystemEventHandler, FileModifiedEvent
-from watchdog.observers import Observer
+from typing import Any, Callable, Dict, List
 
 from config2class._core.constructor import ConfigConstructor
 from config2class._service.backend import start_observer
@@ -16,10 +11,81 @@ from config2class._service.config import PID_FILE
 from config2class._service.pid_coordination import (
     add_pid,
     check_for_process,
-    read_pid_file,
     remove_pid,
 )
+from omegaconf import OmegaConf
 import config2class.utils.filesystem as fs_utils
+from hydra import compose, initialize
+from hydra.errors import HydraException
+
+
+def file2code(
+    in_file_path: str,
+    out_file_path: str = "config.py",
+    init_none: bool = False,
+    resolve: bool = False,
+    ignore: List[str] = None,
+):
+    ending = in_file_path.split(".")[-1]
+    try:
+        load_func = getattr(fs_utils, "load_" + ending)
+        load_func: Callable[[str], Dict[str, Any]]
+    except AttributeError as error:
+        raise NotImplementedError(
+            f"Files with ending {ending} are not supported yet. Please use .yaml or .json or .toml."
+        ) from error
+
+    content = load_func(in_file_path)
+
+    if resolve:
+        # resolve expressions in config
+        content = OmegaConf.create(content)
+        content = OmegaConf.to_container(content, resolve=True)
+
+    constructor = ConfigConstructor(ignore=ignore)
+    constructor.construct(content)
+    constructor.write(out_file_path, init_none)
+
+
+def hydra2code(
+    in_file_path: str,
+    out_file_path: str = "config.py",
+    init_none: bool = False,
+    resolve: bool = False,
+):
+    """_summary_
+
+    Args:
+        in_file_path (str): _description_
+        out_file_path (str, optional): _description_. Defaults to "config.py".
+        init_none (bool, optional): _description_. Defaults to False.
+        resolve (bool, optional): _description_. Defaults to False.
+
+    """
+    in_file_path: Path = Path(in_file_path)
+    if in_file_path.is_absolute():
+        call_dir = Path()
+        # change to relative path from system root
+        in_file_path = Path(str(in_file_path)[1:])
+    else:
+        # change to relative path from system root
+        call_dir = Path(str(Path.cwd())[1:])
+
+    # move relative from from file dire to system root to call dir to specified input file
+    file_dir = Path(__file__).parent
+    cd_path = Path().joinpath(*[".." for _ in file_dir.parents])
+
+    in_file_path = cd_path.joinpath(call_dir).joinpath(in_file_path)
+
+    config_path = str(in_file_path.parent)
+    config_name = str(in_file_path.stem)
+    with initialize(version_base=None, config_path=config_path, job_name=None):
+        cfg = compose(config_name=config_name)
+
+    content = OmegaConf.to_container(cfg, resolve=resolve)
+    constructor = ConfigConstructor()
+    constructor.construct(content)
+    constructor.write(out_file_path, init_none)
 
 
 def start_service(
@@ -49,7 +115,7 @@ def start_service(
         return
     if not os.path.exists(output_file):
         print(f"Output file does not exist: {output_file}")
-        return
+
     print(__file__)
     if verbose:
         start_observer(input_file, output_file)
