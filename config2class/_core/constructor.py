@@ -1,8 +1,11 @@
+import logging
 from pathlib import Path
 from types import NoneType
 from typing import Any, Dict, List
 from config2class._core.code_abstraction import ConfigAbstraction
-from config2class._utils.replacement import replace_tokens
+from config2class.utils.replacement import replace_tokens
+from flatten_dict import flatten, unflatten
+import pyaml
 
 
 class ConfigConstructor:
@@ -14,11 +17,12 @@ class ConfigConstructor:
             each representing a part of the configuration structure.
     """
 
-    def __init__(self):
+    def __init__(self, ignore: List[str] = None):
         """
         Initializes a new `ConfigConstructor` instance.
         """
         self.configs: List[ConfigAbstraction] = []
+        self.ignore = [] if ignore is None else ignore
 
     def construct(self, config: Dict[str, Any]):
         """
@@ -28,14 +32,18 @@ class ConfigConstructor:
         Args:
             config (Dict[str, Any]): The configuration dictionary.
         """
-        config = replace_tokens(config)
-        self.configs = []
-        if len(config) > 1:
-            name = "Config"
-            content = config
-        else:
+        config = self._filter_ignore(config)
+
+        if len(config.keys()) == 0:
+            return
+        elif len(config.keys()) == 1:
             name, content = list(config.items())[0]
 
+        elif len(config.keys()) > 1:
+            name = "Config"
+            content = config
+
+        self.configs = []
         config_abstraction = self._construct_config_class(name, content)
         self.configs.append(config_abstraction)
 
@@ -62,7 +70,7 @@ class ConfigConstructor:
             out_path.parent.mkdir(parents=True, exist_ok=True)
             out_path.touch(exist_ok=True)
         with open(out_path, "w", encoding="utf-8") as file:
-            file.writelines([])
+            file.writelines([])  # clear file first
             file.writelines(code)
 
     def _construct_config_class(self, name: str, content: Dict[str, Any]):
@@ -84,5 +92,32 @@ class ConfigConstructor:
                 config_abstraction.add_field(key, sub_config)
             elif isinstance(value, (str, bool, float, list, tuple, int, NoneType)):
                 config_abstraction.add_field(key, value)
-
         return config_abstraction
+
+    def _filter_ignore(self, config: Dict[str, Any]) -> Dict[str, Any]:
+        """remove all keys which are specified in self.ignore
+
+        Args:
+            config (Dict[str, Any]): config with all keys
+
+        Returns:
+            Dict[str, Any]: filtered config
+        """
+        flattened_config = flatten(config, "dot")
+        # check on ignore keys if they are apparent in flattened config
+        unaffected_ignores = ""
+        filtered_config = {}
+        for key in self.ignore:
+            if key not in flattened_config.keys():
+                unaffected_ignores += f"\t- {key}\n"
+            else:
+                flattened_config.pop(key)
+
+        if len(unaffected_ignores) > 0:
+            yaml_str = pyaml.dump(flattened_config, indent=2)
+            yaml_str = " \n\t".join(yaml_str.split("\n"))
+
+            logging.info(
+                f"Given the flatted config:\n\t{yaml_str}\n the following keys had no affect:\n{unaffected_ignores}"
+            )
+        return unflatten(flattened_config, "dot")
