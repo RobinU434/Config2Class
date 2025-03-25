@@ -2,7 +2,7 @@ import logging
 from pathlib import Path
 import sys
 from typing import Dict, Tuple
-from config2class._utils import filesystem
+from config2class.utils import filesystem
 from config2class._service.config import PID_FILE
 
 

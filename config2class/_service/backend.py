@@ -1,7 +1,7 @@
 import sys
 import time
 from config2class._core.constructor import ConfigConstructor
-import config2class._utils.filesystem as fs_utils
+import config2class.utils.filesystem as fs_utils
 from watchdog.events import FileSystemEventHandler, FileModifiedEvent
 from watchdog.observers import Observer
 import logging
@@ -9,7 +9,9 @@ from typing import Any, Callable, Dict
 
 
 class ConfigHandler(FileSystemEventHandler):
-    def __init__(self, input_file: str, output_file: str = "config", init_none: bool = False):
+    def __init__(
+        self, input_file: str, output_file: str = "config", init_none: bool = False
+    ):
         super().__init__()
 
         self.input_file = input_file
@@ -62,9 +64,13 @@ class ConfigHandler(FileSystemEventHandler):
         logging.info(f"New config written to {self.output_file}")
 
 
-def start_observer(input_file: str, output_file: str = "config.py", init_none: bool = False):
+def start_observer(
+    input_file: str, output_file: str = "config.py", init_none: bool = False
+):
     # Create an event handler and an observer
-    event_handler = ConfigHandler(input_file=input_file, output_file=output_file, init_none=init_none)
+    event_handler = ConfigHandler(
+        input_file=input_file, output_file=output_file, init_none=init_none
+    )
     observer = Observer()
     observer.schedule(event_handler, input_file, recursive=True)
 

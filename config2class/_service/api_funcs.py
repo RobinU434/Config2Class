@@ -19,11 +19,14 @@ from config2class._service.pid_coordination import (
     read_pid_file,
     remove_pid,
 )
-import config2class._utils.filesystem as fs_utils
+import config2class.utils.filesystem as fs_utils
 
 
 def start_service(
-    input_file: str, output_file: str = "config.py", verbose: bool = False, init_none: bool = False,
+    input_file: str,
+    output_file: str = "config.py",
+    verbose: bool = False,
+    init_none: bool = False,
 ):
     """
     Starts a new background thread to observe changes to the input file and update the output configuration file.
