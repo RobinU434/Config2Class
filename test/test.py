@@ -13,8 +13,8 @@ import pytest
 import config2class._service.api_funcs as api_funcs
 from config2class._core.entrypoint import Config2Code
 from config2class._service.api_funcs import start_service, stop_process
-from config2class._utils import deconstruct_config, filesystem
-from config2class._utils.replacement import replace_tokens
+from config2class.utils import deconstruct_config, filesystem
+from config2class.utils.replacement import replace_tokens
 
 
 
@@ -25,7 +25,7 @@ from config2class._utils.replacement import replace_tokens
 def test_class_construction(cleanup, file_name: str):
     process = Config2Code()
     input_file = "example/" + file_name
-    process.to_code(input_file, OUT_PATH)
+    process.file2code(input_file, OUT_PATH)
 
     # test from file
     _check_created_config(input_file)
@@ -35,7 +35,7 @@ def test_unknown_file(cleanup):
     try:
         process = Config2Code()
         input_file = "example/example.pkl"
-        process.to_code(input_file, OUT_PATH)
+        process.file2code(input_file, OUT_PATH)
         raise AssertionError("Expected to fail because of unknown file")
     except NotImplementedError:
         # test has passed

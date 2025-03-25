@@ -2,7 +2,7 @@ import logging
 from argparse import ArgumentParser
 from omegaconf import DictConfig
 
-from config2class._utils.parser import setup_parser
+from config2class.utils.parser import setup_parser
 from config2class.api.hydra import hydra_wrapper
 from usage_examples.config import App_config
 
