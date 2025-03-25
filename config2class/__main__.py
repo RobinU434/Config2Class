@@ -10,13 +10,24 @@ def execute(args: dict) -> bool:
     module = Config2Code()
     _, command_parser = setup_config2code_parser(ArgumentParser())
     match args["command"]:
-        case "to-code":
-            module.to_code(
+        case "file2code":
+            module.file2code(
                 input=args["input"],
                 output=args["output"],
                 init_none=args["init_none"],
                 resolve=args["resolve"],
                 ignore=args["ignore"],
+                verbose=args["verbose"],
+                recursive=args["recursive"],
+            )
+
+        case "hydra2code":
+            module.hydra2code(
+                input=args["input"],
+                output=args["output"],
+                init_none=args["init_none"],
+                resolve=args["resolve"],
+                verbose=args["verbose"],
             )
 
         case "start-service":

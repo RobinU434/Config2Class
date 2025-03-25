@@ -1,9 +1,19 @@
+from pathlib import Path
+from typing import Any, Callable, Dict, List
 from omegaconf import OmegaConf
-from config2class._service.api_funcs import read_pid_file, start_service, stop_process
-import config2class._utils.filesystem as fs_utils
+from config2class._service.api_funcs import (
+    hydra2code,
+    file2code,
+    start_service,
+    stop_process,
+)
+from config2class._service.pid_coordination import read_pid_file
+import config2class.utils.filesystem as fs_utils
 from config2class._core.constructor import ConfigConstructor
 from glob import glob
 import os
+
+from config2class.utils.logging import set_log_level_debug
 
 
 class Config2Code:
@@ -20,7 +30,16 @@ class Config2Code:
         """
         pass
 
-    def to_code(self, input: str, output: str = "config.py", init_none: bool = False, omega_conf: bool = False):
+    def file2code(
+        self,
+        input: str,
+        output: str = "config.py",
+        init_none: bool = False,
+        resolve: bool = False,
+        ignore: List[str] = None,
+        verbose: bool = False,
+        recursive: bool = False,
+    ):
         """
         Converts a configuration file to a Python dataclass and writes the code to a file.
 
@@ -29,30 +48,44 @@ class Config2Code:
             output (str, optional): The path to the output file where the generated
                 dataclass code will be written. Defaults to "config.py".
             init_none (bool, optional): Would you like to init all argument with None or just declare members in the class. Defaults to False
-            omega_conf: (bool, optional): Set this flag to indicate load load the given config in a OmegaConf fashion. 
-                Configs are then allowed to spread over multiple files. Defaults to False 
+            resolve: (bool, optional): Set this flag to resolve expressions in the loaded config. Defaults to False
+            ignore: (List[str], optional): ignore element from config. To point to certain element in the config you would use point notation. Defaults to None.
+            verbose: (bool, optional): Set log level to logging.DEBUG. Defaults to False
         Raises:
             NotImplementedError: If the input file format is not YAML or JSON or TOML.
         """
-        ending = input.split(".")[-1]
+        if verbose:
+            set_log_level_debug()
+        file2code(input, output, init_none, resolve, ignore)
 
-        if omega_conf and ending in ["yaml", "yml"]:
-            # OmegaConf.
-            pass
-        try:
-            load_func = getattr(fs_utils, "load_" + ending)
-        except AttributeError as error:
-            raise NotImplementedError(
-                f"Files with ending {ending} are not supported yet. Please use .yaml or .json or .toml."
-            ) from error
+    def hydra2code(
+        self,
+        input: str,
+        output: str = "config.py",
+        init_none: bool = False,
+        resolve: bool = False,
+        verbose: bool = False,
+    ):
+        """converts a hydra config into a structured config
 
-        content = load_func(input)
-        constructor = ConfigConstructor()
-        constructor.construct(content)
-        constructor.write(output, init_none)
+        Args:
+            input (str): The path to the configuration file (YAML or JSON).
+            output (str, optional): The path to the output file where the generated
+                dataclass code will be written. Defaults to "config.py".
+            init_none (bool, optional): Would you like to init all argument with None or just declare members in the class. Defaults to False
+            resolve: (bool, optional): Set this flag to resolve expressions in the loaded config. Defaults to False
+            verbose: (bool, optional): Set log level to logging.DEBUG. Defaults to False
+        """
+        if verbose:
+            set_log_level_debug()
+        hydra2code(input, output, init_none, resolve)
 
     def start_service(
-        self, input: str, output: str = "config.py", verbose: bool = False, init_none: bool = False,
+        self,
+        input: str,
+        output: str = "config.py",
+        verbose: bool = False,
+        init_none: bool = False,
     ):
         """start an observer to create the config automatically.
 
