@@ -32,21 +32,34 @@ pip install config2code
    Use the `config2code` command-line interface to convert the configuration file:
 
    ```bash
-   config2code to-code --input input.yaml --output output.py
+   c2c file2code --input input.yaml --output output.py
    ```
 
    This will generate a Python file `output.py` containing a dataclass representing the configuration:
 
    ```python
    from dataclasses import dataclass
+   from config2class.api.base import StructuredConfig
 
    @dataclass
-   class DatabaseConfig:
+   class DatabaseConfig(StructuredConfig):
        host: str
        port: int
        user: str
        password: str
    ```
+
+### file2code
+
+As shown in the previous example `file2code` is only concerned with mapping one given config file of any type into a structured python. Explore options within this command with: `c2c file2code --help`
+
+### dir2code
+
+This command is an aggregation of `file2code`. With `dir2code` you point to a directory where multiple config files are saved mark an output directory where you would like to write the python files each with structured configs per file inside.
+
+### hydra2code
+
+This command enables to write your structured-config from hydra config from a single config file or distributed over multiple config files. This command uses the `hydra.compose` api to load the specified config files.
 
 ### Placeholder Example
 
@@ -66,15 +79,12 @@ Sometimes you put redundant data in your config file because it is more convenie
          learning_rate: 0.0001
 ```
 
-Here we use the API of [OmegaConf](https://omegaconf.readthedocs.io/en/2.3_branch/). Therefor you are allowed to use all kinds of funny stuff like custom evaluators or missing value imputation or merging config files from multiple files or .... .  
-Please note for the last one is no tested feature for merging configs from multiple files into one big structured config. 
-
-### Hydra Integration
-
-Additionally we support now a Hydra integration where provide functions to add the hydra ArgumentParser to your custom parser.
-> **_Note:_** Please note this feature is still underdevelopment. Therefor please be careful while merging those two argument parser and setup the wrapper function. A rough example can be examined [here](usage_examples/hydra_integration.py)
+Here we use the API of [OmegaConf](https://omegaconf.readthedocs.io/en/2.3_branch/). Therefor you are allowed to use all kinds of funny stuff like custom evaluators or missing value imputation or merging config files from multiple files or .... .
+Please note for the last one is no tested feature for merging configs from multiple files into one big structured config.
 
 ### Service
+
+> **_Note:_** Please note this feature is still underdevelopment under the new API. There can be unforeseen behavior with this command. Please be careful
 
 This service monitors the requested configuration file. If the services detects changes in the file it will automatically write those changes into the specified `output.py`.
 You can start the service for example with:
@@ -101,7 +111,7 @@ config = DatabaseConfig.from_file("input.yaml")
 config.host
 ```
 
-This is different to a normal `DictConfig` from OmegaConf because this supports code completion in your coding environment. 
+This is different to a normal `DictConfig` from OmegaConf because this supports code completion in your coding environment.
 
 ## Key Features
 
@@ -120,8 +130,6 @@ This is different to a normal `DictConfig` from OmegaConf because this supports 
 ## Features to expand
 
 * [ ] add VS Code extension (create new file on config file save)
-* [ ] add renaming feature from config to code (renaming a field in the config file should resolve in renaming a field in the code
-* [ ] expand token feature so you can access memeber of a list `{{<path>.<to>.<element>[<index>]}}`
 
 ## Contributing
 
