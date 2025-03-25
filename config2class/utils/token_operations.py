@@ -1,6 +1,6 @@
 import re
 from typing import Any, Dict
-from config2class._utils.dict_operations import flatten_dict
+from config2class.utils.dict_operations import flatten_dict
 
 
 def get_token_content(value: str) -> str:

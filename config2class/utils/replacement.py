@@ -1,7 +1,7 @@
 from typing import Any, Dict
 
-from config2class._utils.dict_operations import find_cycles, flatten_dict, unflatten
-from config2class._utils.token_operations import (
+from config2class.utils.dict_operations import find_cycles, flatten_dict, unflatten
+from config2class.utils.token_operations import (
     build_dependency_graph,
     get_token_content,
     is_token,

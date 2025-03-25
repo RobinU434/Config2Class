@@ -1,9 +1,9 @@
 from argparse import ArgumentParser
 from pathlib import Path
 from pyargwriter import api
-from config2class._utils.parser import setup_config2code_parser
+from config2class.utils.parser import setup_config2code_parser
 from config2class._core.entrypoint import Config2Code
-from config2class._utils.parser import setup_parser
+from config2class.utils.parser import setup_parser
 
 
 def execute(args: dict) -> bool:
@@ -12,12 +12,19 @@ def execute(args: dict) -> bool:
     match args["command"]:
         case "to-code":
             module.to_code(
-                input=args["input"], output=args["output"], init_none=args["init_none"]
+                input=args["input"],
+                output=args["output"],
+                init_none=args["init_none"],
+                resolve=args["resolve"],
+                ignore=args["ignore"],
             )
 
         case "start-service":
             module.start_service(
-                input=args["input"], output=args["output"], verbose=args["verbose"]
+                input=args["input"],
+                output=args["output"],
+                verbose=args["verbose"],
+                init_none=args["init_none"],
             )
 
         case "stop-service":

@@ -48,6 +48,13 @@ def add_start_service_args(parser: ArgumentParser) -> ArgumentParser:
         action="store_true",
         required=False,
     )
+    parser.add_argument(
+        "--init-none",
+        help="Would you like to init all argument with None or just declare members in the class. Defaults to False",
+        dest="init_none",
+        action="store_true",
+        required=False,
+    )
     return parser
 
 
@@ -72,6 +79,22 @@ def add_to_code_args(parser: ArgumentParser) -> ArgumentParser:
         help="",
         dest="init_none",
         action="store_true",
+        required=False,
+    )
+    parser.add_argument(
+        "--resolve",
+        help="Would you like to init all argument with None or just declare members in the class. Defaults to False",
+        dest="resolve",
+        action="store_true",
+        required=False,
+    )
+    parser.add_argument(
+        "--ignore",
+        help="(bool, optional): Set this flag to resolve expressions in the loaded config. Defaults to False",
+        dest="ignore",
+        type=str,
+        nargs="+",
+        default=None,
         required=False,
     )
     return parser
