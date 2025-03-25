@@ -2,6 +2,7 @@ from pathlib import Path
 from typing import Any, Callable, Dict, List
 from omegaconf import OmegaConf
 from config2class._service.api_funcs import (
+    dir2code,
     hydra2code,
     file2code,
     start_service,
@@ -56,6 +57,43 @@ class Config2Code:
         if verbose:
             set_log_level_debug()
         file2code(input, output, init_none, resolve, ignore)
+
+    def dir2code(
+        self,
+        input: str,
+        output: str = ".",
+        recursive: bool = False,
+        init_none: bool = False,
+        resolve: bool = False,
+        verbose: bool = False,
+        prefix: str = "",
+        suffix: str = "_config",
+    ):
+        """Convert all config files in a directory into a structured config.
+
+        Args:
+
+            input (str): The path to the directories with config file (YAML or JSON).
+            output (str, optional): The path to the output directory where the generated
+                dataclass code will be written. Defaults to ".".
+            recursive (bool, optional): If set look for all nested config files. Defaults to False.
+            init_none (bool, optional): Would you like to init all argument with None or just declare members in the class. Defaults to False
+            resolve: (bool, optional): Set this flag to resolve expressions in the loaded config. Defaults to False
+            verbose: (bool, optional): Set log level to logging.DEBUG. Defaults to False
+            prefix (str, optional): prefix for output file name. Defaults to "".
+            suffix (str, optional): prefix for output file name. Defaults to "_config".
+        """
+        if verbose:
+            set_log_level_debug()
+        dir2code(
+            input,
+            output,
+            recursive,
+            init_none,
+            resolve,
+            prefix,
+            suffix,
+        )
 
     def hydra2code(
         self,

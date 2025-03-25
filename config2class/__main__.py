@@ -20,6 +20,19 @@ def execute(args: dict) -> bool:
                 verbose=args["verbose"],
             )
 
+        case "dir2code":
+            module.dir2code(
+                input=args["input"],
+                output=args["output"],
+                recursive=args["recursive"],
+                init_none=args["init_none"],
+                resolve=args["resolve"],
+                verbose=args["verbose"],
+                prefix=args["prefix"],
+                suffix=args["suffix"],
+                flatten=args["flatten"],
+            )
+
         case "hydra2code":
             module.hydra2code(
                 input=args["input"],

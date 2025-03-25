@@ -1,4 +1,6 @@
+from glob import glob
 import os
+import re
 import signal
 import subprocess
 import sys
@@ -26,15 +28,7 @@ def file2code(
     resolve: bool = False,
     ignore: List[str] = None,
 ):
-    ending = in_file_path.split(".")[-1]
-    try:
-        load_func = getattr(fs_utils, "load_" + ending)
-        load_func: Callable[[str], Dict[str, Any]]
-    except AttributeError as error:
-        raise NotImplementedError(
-            f"Files with ending {ending} are not supported yet. Please use .yaml or .json or .toml."
-        ) from error
-
+    load_func = fs_utils.get_load_func(in_file_path)
     content = load_func(in_file_path)
 
     if resolve:
@@ -45,6 +39,49 @@ def file2code(
     constructor = ConfigConstructor(ignore=ignore)
     constructor.construct(content)
     constructor.write(out_file_path, init_none)
+
+
+def dir2code(
+    input_dir: str,
+    output_dir: str,
+    recursive: bool = False,
+    init_none: bool = False,
+    resolve: bool = False,
+    prefix: str = "",
+    suffix: str = "",
+):
+    input_dir: Path = Path.cwd().joinpath(input_dir)
+    output_dir: Path = Path.cwd().joinpath(output_dir)
+    assert input_dir.is_dir(), "given input path has to be a directory"
+    assert output_dir.is_dir(), "given input path has to be a directory"
+
+    # get available load types
+    load_funcs = fs_utils.get_available_load_funcs()
+    file_type_map = {k.split("_")[-1]: v for k, v in load_funcs.items()}
+
+    # list files
+    pattern = bytes(".*(" + "|".join(file_type_map.keys()) + ")$", encoding="utf-8")
+    pattern = re.compile(pattern)
+    if recursive:
+        files = [
+            f
+            for f in input_dir.glob("**/*")
+            if pattern.match(bytes(str(f), encoding="utf-8"))
+        ]
+    else:
+        files = [
+            f
+            for f in input_dir.glob("*")
+            if pattern.match(bytes(str(f), encoding="utf-8"))
+        ]
+
+    # construct config files
+    for file in files:
+        input_file = str(input_dir.joinpath(file))
+        output_file = prefix + file.stem + suffix + ".py"
+        output_file = str(output_dir.joinpath(output_file))
+        print(input_file, " --> ", output_file)
+        file2code(input_file, output_file, init_none, resolve)
 
 
 def hydra2code(

@@ -12,10 +12,18 @@ def load_yaml(path: str | Path, encoding: str = "utf-8") -> Dict[str, Any]:
     return content
 
 
+def load_yml(path: str | Path, encoding: str = "utf-8") -> Dict[str, Any]:
+    return load_yaml(path, encoding)
+
+
 def load_json(path: str | Path, encoding: str = "utf-8") -> Dict[str, Any]:
     with open(path, "r", encoding=encoding) as file:
         content = json.load(file)
     return content
+
+
+def load_jsn(path: str | Path, encoding: str = "utf-8") -> Dict[str, Any]:
+    return load_json(path, encoding)
 
 
 def load_toml(path: str | Path, encoding: str = "utf-8") -> Dict[str, Any]:
@@ -24,8 +32,25 @@ def load_toml(path: str | Path, encoding: str = "utf-8") -> Dict[str, Any]:
     return content
 
 
-def get_load_func(path: str | Path) -> Callable[[str], Dict[str, Any]]:
-    return globals()["load_" + path.split(".")[-1]]
+def get_load_func(path: str | Path) -> Callable[[str, str], Dict[str, Any]]:
+    if isinstance(path, str):
+        suffix = path.split(".")[-1]
+    elif isinstance(path, Path):
+        suffix = path.suffix
+    else:
+        raise ValueError(f"Not recognized type of `path`: {type(path)}")
+    try:
+        load_func = globals()["load_" + suffix]
+    except KeyError as error:
+        raise NotImplementedError(
+            f"Files with ending {suffix} are not supported yet. Please use .yaml or .json or .toml."
+        ) from error
+    return load_func
+
+
+def get_available_load_funcs() -> Dict[str, Callable[[str, str], Dict[str, Any]]]:
+    load_func_names = filter(lambda x: x.split("_")[0] == "load", globals().keys())
+    return {k: globals()[k] for k in load_func_names}
 
 
 def write_yaml(
@@ -53,4 +78,16 @@ def write_toml(
 
 
 def get_write_func(path: str | Path) -> Callable[[str, Dict[str, Any]], None]:
-    return globals()["write_" + path.split(".")[-1]]
+    if isinstance(path, str):
+        suffix = path.split(".")[-1]
+    elif isinstance(path, Path):
+        suffix = path.suffix
+    else:
+        raise ValueError(f"Not recognized type of `path`: {type(path)}")
+    try:
+        load_func = globals()["write_" + suffix]
+    except KeyError as error:
+        raise NotImplementedError(
+            f"Files with ending {suffix} are not supported yet. Please use .yaml or .json or .toml."
+        ) from error
+    return load_func

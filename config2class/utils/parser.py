@@ -98,6 +98,75 @@ def add_hydra2code_args(parser: ArgumentParser) -> ArgumentParser:
     return parser
 
 
+def add_dir2code_args(parser: ArgumentParser) -> ArgumentParser:
+    parser.add_argument(
+        "--input",
+        help="--no-documentation-exists--",
+        dest="input",
+        type=str,
+        required=True,
+    )
+    parser.add_argument(
+        "--output",
+        help="--no-documentation-exists--",
+        dest="output",
+        type=str,
+        required=True,
+    )
+    parser.add_argument(
+        "--recursive",
+        help="--no-documentation-exists--",
+        dest="recursive",
+        action="store_true",
+        required=False,
+    )
+    parser.add_argument(
+        "--init-none",
+        help="--no-documentation-exists--",
+        dest="init_none",
+        action="store_true",
+        required=False,
+    )
+    parser.add_argument(
+        "--resolve",
+        help="--no-documentation-exists--",
+        dest="resolve",
+        action="store_true",
+        required=False,
+    )
+    parser.add_argument(
+        "--verbose",
+        help="--no-documentation-exists--",
+        dest="verbose",
+        action="store_true",
+        required=False,
+    )
+    parser.add_argument(
+        "--prefix",
+        help="--no-documentation-exists--",
+        dest="prefix",
+        type=str,
+        default="",
+        required=False,
+    )
+    parser.add_argument(
+        "--suffix",
+        help="--no-documentation-exists--",
+        dest="suffix",
+        type=str,
+        default="_config",
+        required=False,
+    )
+    parser.add_argument(
+        "--flatten",
+        help="--no-documentation-exists--",
+        dest="flatten",
+        action="store_true",
+        required=False,
+    )
+    return parser
+
+
 def add_file2code_args(parser: ArgumentParser) -> ArgumentParser:
     parser.add_argument(
         "--input",
@@ -158,6 +227,11 @@ def setup_config2code_parser(
     )
     file2code = add_file2code_args(file2code)
     subparser["file2code"] = file2code
+    dir2code = command_subparser.add_parser(
+        "dir2code", help="--no-documentation-exists--"
+    )
+    dir2code = add_dir2code_args(dir2code)
+    subparser["dir2code"] = dir2code
     hydra2code = command_subparser.add_parser(
         "hydra2code", help="converts a hydra config into a structured config"
     )
