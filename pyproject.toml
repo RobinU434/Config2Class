@@ -13,7 +13,7 @@ include = [
 ]
 
 [tool.poetry.scripts]
-config2class = "config2class.__main__:main"
+c2c = "config2class.__main__:main"
 
 [tool.poetry.dependencies]
 python = "^3.10"
