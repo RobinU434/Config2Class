@@ -160,7 +160,7 @@ def start_service(
 
     check_for_process(input_file, output_file)
     # Start a new Python process that runs this script with an internal flag for `background_task`
-    backend_file = "/".join([*__file__.split("/")[:-1], "backend.py"])
+    backend_file = Path(__file__).parent.joinpath("backend.py")
     process = subprocess.Popen(
         [sys.executable, backend_file, input_file, output_file],
         stdout=subprocess.PIPE,
