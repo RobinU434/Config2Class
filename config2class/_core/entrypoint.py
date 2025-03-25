@@ -38,7 +38,6 @@ class Config2Code:
         resolve: bool = False,
         ignore: List[str] = None,
         verbose: bool = False,
-        recursive: bool = False,
     ):
         """
         Converts a configuration file to a Python dataclass and writes the code to a file.

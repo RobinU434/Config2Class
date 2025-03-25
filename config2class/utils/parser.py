@@ -144,13 +144,6 @@ def add_file2code_args(parser: ArgumentParser) -> ArgumentParser:
         action="store_true",
         required=False,
     )
-    parser.add_argument(
-        "--recursive",
-        help="(bool, optional): Set log level to logging.DEBUG. Defaults to False",
-        dest="recursive",
-        action="store_true",
-        required=False,
-    )
     return parser
 
 

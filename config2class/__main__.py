@@ -18,7 +18,6 @@ def execute(args: dict) -> bool:
                 resolve=args["resolve"],
                 ignore=args["ignore"],
                 verbose=args["verbose"],
-                recursive=args["recursive"],
             )
 
         case "hydra2code":
