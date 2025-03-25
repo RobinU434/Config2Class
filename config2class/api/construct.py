@@ -1,6 +1,6 @@
 from pathlib import Path
 from typing import Any, Dict
-import config2class._utils.filesystem as fs_utils
+import config2class.utils.filesystem as fs_utils
 from omegaconf import OmegaConf
 
 

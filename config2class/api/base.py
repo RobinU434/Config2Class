@@ -6,8 +6,8 @@ from typing import Any, Dict
 from omegaconf import DictConfig, OmegaConf
 import yaml
 
-from config2class._utils.deconstruction import deconstruct_config
-import config2class._utils.filesystem as fs_utils
+from config2class.utils.deconstruction import deconstruct_config
+import config2class.utils.filesystem as fs_utils
 from config2class.api.construct import get_content, preprocess_container
 
 
@@ -45,8 +45,7 @@ class StructuredConfig(ABC):
         return deconstruct_config(self)
 
     def display(self):
-        print(repr(self))   
-    
+        print(repr(self))
+
     def __repr__(self):
         return yaml.dump(self.to_container(), indent=2)
-

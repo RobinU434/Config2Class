@@ -86,6 +86,6 @@ class ConfigAbstraction:
                 f"        self.{key} = {value.name}(**self.{key})  #pylint: disable=E1134\n"
             )
         return code
-    
+
     def __repr__(self):
         return str(self.fields)
